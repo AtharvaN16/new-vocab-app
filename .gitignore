@@ -42,3 +42,6 @@ skills-lock.json
 
 # Accidental desktop captures in repo root
 /Screenshot*.png
+
+# Local API keys (use Secrets.example.xcconfig as a template)
+Config/Secrets.xcconfig

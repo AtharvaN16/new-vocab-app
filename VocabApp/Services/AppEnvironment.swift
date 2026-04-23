@@ -2,6 +2,18 @@ import Foundation
 import SwiftData
 import SwiftUI
 
+private enum BuildSecrets {
+    /// Wordnik key from `Config/Secrets.xcconfig` → Info.plist, or `WORDNIK_API_KEY` in the run environment.
+    static var wordnikAPIKey: String {
+        if let v = Bundle.main.object(forInfoDictionaryKey: "WORDNIK_API_KEY") as? String,
+           !v.isEmpty,
+           !v.hasPrefix("$(") {
+            return v
+        }
+        return ProcessInfo.processInfo.environment["WORDNIK_API_KEY"] ?? ""
+    }
+}
+
 @Observable
 final class AppEnvironment {
     let wordRepository: WordRepository
@@ -21,7 +33,7 @@ final class AppEnvironment {
         self.srsRepository = SwiftDataSRSRepository(modelContext: modelContext)
         self.authRepository = SupabaseAuthService()
 
-        let wordnikKey = "n45snhph1wsci8f2v1j83182d5fk2kqwpos7kax1uv9pcptc2"
+        let wordnikKey = BuildSecrets.wordnikAPIKey
         
         // BYOK Keys from Keychain
         let orKeyPath = "com.atharvanayak.vocabapp.openrouter_key"
