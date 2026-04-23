@@ -21,8 +21,7 @@ final class AppEnvironment {
         self.srsRepository = SwiftDataSRSRepository(modelContext: modelContext)
         self.authRepository = SupabaseAuthService()
 
-        // Wordnik: set `WORDNIK_API_KEY` in the Run scheme’s environment (Xcode → Edit Scheme → Run → Arguments).
-        let wordnikKey = ProcessInfo.processInfo.environment["WORDNIK_API_KEY"] ?? ""
+        let wordnikKey = "n45snhph1wsci8f2v1j83182d5fk2kqwpos7kax1uv9pcptc2"
         
         // BYOK Keys from Keychain
         let orKeyPath = "com.atharvanayak.vocabapp.openrouter_key"
