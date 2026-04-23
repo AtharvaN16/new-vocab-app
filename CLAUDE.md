@@ -14,6 +14,21 @@ Old app reference: `/Users/atharvanayak/Desktop/VocabApp` (React Native)
 
 ---
 
+## MCP Servers
+
+The following MCP servers are configured for this project and should be used for design-to-code tasks:
+
+### 1. Figma Console (Southleft)
+- **Purpose:** Direct interaction with the active Figma selection. Use this to get exact CSS, colors, and layout from the desktop app.
+- **Tools:** `get_selection`, `get_css`, `get_document_colors`.
+- **Setup:** Ensure the **Desktop Bridge** plugin is running in Figma (imported from `~/.figma-console-mcp/plugin/manifest.json`).
+
+### 2. Official Figma MCP
+- **Purpose:** File-level operations and generating canvas elements. Use this to search for frames or list project files.
+- **Tools:** `get_file`, `search_files`, `create_component`.
+
+---
+
 ## Agent Skills to Install
 
 These skills teach Claude how to write better Swift/SwiftUI code. Install before starting:
@@ -39,6 +54,7 @@ Use `/swiftui-pro` when writing or reviewing SwiftUI views.
 
 ## AI Workflow Orchestration
 
+- Always use web search whenever relevant or planning a big move to ensure latest documentation, library versions, and best practices are followed.
 - Enter plan mode for non-trivial tasks (3+ architectural decisions). Write the plan, get alignment, then implement.
 - Use plan mode for verification steps — don't jump straight to code on ambiguous requirements.
 - Break large features into tasks using TodoWrite before starting. Complete each task fully before moving to the next.
@@ -144,13 +160,16 @@ Services/
 - Never import SwiftData into a View directly — go through ViewModel → UseCase → Repository
 - Never call Supabase from a ViewModel — use the repository protocol
 
-## Gesture System (Word Detail Sheet)
+## Gesture System (Home Word Card)
 
-Preserve these exactly — they are core UX:
-- Swipe up → Add to Collection Sheet
-- Swipe down → Bookmark toggle + haptic
-- Double-tap → Favorite toggle + heart animation + haptic
-- Swipe left/right → Navigate words in current collection context
+Preserve these exactly — they are core UX. Mirrors the old React Native app's gesture system:
+- **Swipe left/right** → Navigate words (card slides fully off-screen, new card springs in from opposite side; scale + opacity linked to drag distance)
+- **Pull down** (overscroll at top) → Opens "Save to Collection" bottom sheet + circular progress indicator at top while pulling
+- **Pull up** (overscroll at bottom) → Opens Search + circular progress indicator at bottom while pulling
+- **Double-tap** → Favorite toggle + heart floats up from tap location with sway + "Added to favorites" message
+
+### Pull Indicator Behaviour
+Both pull indicators (bookmark ↓, search ↑) use the same visual: a frosted-glass circle with a progress ring that fills as the user pulls. Trigger threshold: 60 pt. On release before threshold: spring back, no action. On release past threshold: action fires, indicator snaps back.
 
 ## AI Integration Rules
 
