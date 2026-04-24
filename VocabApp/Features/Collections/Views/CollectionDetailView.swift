@@ -7,37 +7,43 @@ struct CollectionDetailView: View {
     @State private var showingPractice = false
 
     var body: some View {
-        List {
-            if viewModel.words.isEmpty && !viewModel.isLoading {
-                ContentUnavailableView(
-                    "No words yet",
-                    systemImage: "book",
-                    description: Text("Add words from the Discover tab to build your collection.")
-                )
-                .listRowBackground(Color.clear)
-            } else {
-                ForEach(viewModel.words) { word in
-                    Button(action: { selectedWord = word }) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(word.word.capitalized)
-                                    .font(.headline)
-                                if let phonetic = word.phonetic {
-                                    Text(phonetic)
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
+        ZStack {
+            Theme.Colors.background.ignoresSafeArea()
+            
+            List {
+                if viewModel.words.isEmpty && !viewModel.isLoading {
+                    ContentUnavailableView(
+                        "No words yet",
+                        systemImage: "book",
+                        description: Text("Add words from the Discover tab to build your collection.")
+                    )
+                    .listRowBackground(Color.clear)
+                } else {
+                    ForEach(viewModel.words) { word in
+                        Button(action: { selectedWord = word }) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(word.word.capitalized)
+                                        .font(.headline)
+                                        .foregroundStyle(Theme.Colors.textPrimary)
+                                    if let phonetic = word.phonetic {
+                                        Text(phonetic)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
                         }
+                        .listRowBackground(Theme.Colors.surface)
                     }
-                    .foregroundColor(.primary)
+                    .onDelete(perform: viewModel.deleteWord)
                 }
-                .onDelete(perform: viewModel.deleteWord)
             }
+            .scrollContentBackground(.hidden)
         }
         .navigationTitle(viewModel.collection.name)
         .toolbar {
@@ -58,7 +64,9 @@ struct CollectionDetailView: View {
                 ))
             }
         }
-        .fullScreenCover(item: $selectedWord) { word in
+        .fullScreenCover(item: $selectedWord, onDismiss: {
+            Task { await viewModel.loadWords() }
+        }) { word in
             if let appEnv = appEnvironment {
                 WordDetailView(viewModel: WordDetailViewModel(
                     word: word,

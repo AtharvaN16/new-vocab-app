@@ -2,7 +2,7 @@
 
 This file governs how Claude Code behaves when working on this project.
 
-**This is a living document.** Update it whenever a new convention is established, a mistake pattern is identified, or a rule becomes outdated. Keep it lean — if a rule no longer applies, remove it. If two rules say the same thing, merge them. Never let this file bloat: every line should earn its place. Prefer one sharp rule over three vague ones.
+**Edits to this file:** **Only** **## Project Overview** may be updated — to keep the one-line description, `PRD.md` pointer, and reference paths accurate. **Do not** add to, remove, reword, or “save learnings” in any other section; everything from **## Agent Skills to Install** to the end is **fixed AI and coding instruction** and must be left unchanged unless the user explicitly requests a change to it.
 
 ---
 
@@ -11,21 +11,6 @@ This file governs how Claude Code behaves when working on this project.
 Native iOS vocabulary learning app built with SwiftUI + SwiftData + Supabase.
 See `PRD.md` for full product specification.
 Old app reference: `/Users/atharvanayak/Desktop/VocabApp` (React Native)
-
----
-
-## MCP Servers
-
-The following MCP servers are configured for this project and should be used for design-to-code tasks:
-
-### 1. Figma Console (Southleft)
-- **Purpose:** Direct interaction with the active Figma selection. Use this to get exact CSS, colors, and layout from the desktop app.
-- **Tools:** `get_selection`, `get_css`, `get_document_colors`.
-- **Setup:** Ensure the **Desktop Bridge** plugin is running in Figma (imported from `~/.figma-console-mcp/plugin/manifest.json`).
-
-### 2. Official Figma MCP
-- **Purpose:** File-level operations and generating canvas elements. Use this to search for frames or list project files.
-- **Tools:** `get_file`, `search_files`, `create_component`.
 
 ---
 
@@ -64,9 +49,9 @@ Use `/swiftui-pro` when writing or reviewing SwiftUI views.
 
 ## AI Self-Improvement Loop
 
-- After each task: update task list to reflect what's done and what's next.
-- When you make a mistake or catch a pattern, write it as a rule — add it to the relevant section of this file so it doesn't happen again.
-- Don't just fix bugs — identify the class of mistake and note it here.
+- After each task: update the **session task list** in the tool to reflect what's done and what's next — not this file.
+- **Do not** edit `CLAUDE.md` to log patterns or new rules. Fix the code; learn in-session. If something must be written down, use `PRD.md`, a comment, or ask the user before changing this file.
+- Don't just fix bugs — identify the class of mistake so you don't repeat it; that reflection stays in the session unless the user asks to document it elsewhere.
 
 ---
 
@@ -117,7 +102,7 @@ Transform vague requests into measurable outcomes with verification steps. Inste
 
 - Run multiple Claude sessions in parallel using `git worktree` for independent features.
 - Start complex features with a planning phase (`/plan`) before any implementation.
-- Keep this `CLAUDE.md` updated — encode conventions as you discover them.
+- If **## Project Overview** is out of date (paths, one-line blurb), update **that section only** — never add ad hoc conventions to the rest of this file without a user request.
 - Create reusable slash commands for frequent workflows (e.g., `/add-screen`, `/run-tests`).
 - Use subagents to distribute research — don't cram everything into one context.
 - Pre-configure safe permissions in `.claude/settings.json` to reduce interruptions.

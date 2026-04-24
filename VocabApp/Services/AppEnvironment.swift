@@ -16,6 +16,8 @@ private enum BuildSecrets {
 
 @Observable
 final class AppEnvironment {
+    var selectedTab: Int = 0 // Default to Home
+    var shouldFocusSearch: Bool = false
     let wordRepository: WordRepository
     let collectionRepository: CollectionRepository
     let srsRepository: SRSRepository

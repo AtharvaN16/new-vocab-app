@@ -6,6 +6,7 @@ final class HomeViewModel {
     var words: [WordEntity] = []
     var collections: [CollectionEntity] = []
     var currentIndex: Int = 0
+    var isExpanded: Bool = false
     var isLoading: Bool = false
     var showAddToCollection: Bool = false
     var showSearch: Bool = false
@@ -37,13 +38,28 @@ final class HomeViewModel {
     func loadData() async {
         isLoading = true
         do {
-            words = try await wordRepository.fetchWords()
-                .sorted { $0.createdAt < $1.createdAt }
+            let allWords = try await wordRepository.fetchWords()
             collections = try await collectionRepository.fetchCollections()
+            
+            // Get all word IDs that are in at least one collection
+            let savedWordIds = Set(collections.flatMap { $0.wordIds })
+            
+            words = allWords.filter { savedWordIds.contains($0.id) }
+                .sorted { $0.createdAt < $1.createdAt }
+            
+            clampIndex()
         } catch {
             print("HomeViewModel load error: \(error)")
         }
         isLoading = false
+    }
+
+    private func clampIndex() {
+        if words.isEmpty {
+            currentIndex = 0
+        } else if currentIndex >= words.count {
+            currentIndex = words.count - 1
+        }
     }
 
     func navigateNext() {

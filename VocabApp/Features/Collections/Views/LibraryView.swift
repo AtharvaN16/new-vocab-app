@@ -27,6 +27,7 @@ struct LibraryView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.top, 16) // Consistent top margin
 
                         // User Collections
                         VStack(alignment: .leading, spacing: 16) {
@@ -107,13 +108,17 @@ struct CollectionCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             ZStack {
+                let isBookmarked = collection.name == "Bookmarked"
+                let color = isBookmarked ? Theme.Colors.amieOrange : (collection.isSystem ? Theme.Colors.amieBlue : Color(hex: collection.colorHex))
+                let icon = isBookmarked ? "bookmark.fill" : (collection.name == "Favorites" ? "heart.fill" : "folder.fill")
+                
                 Circle()
-                    .fill(collection.isSystem ? Theme.Colors.amieBlue.opacity(0.1) : Color(hex: collection.colorHex).opacity(0.1))
+                    .fill(color.opacity(0.1))
                     .frame(width: 40, height: 40)
                 
-                Image(systemName: collection.isSystem ? "star.fill" : "folder.fill")
+                Image(systemName: icon)
                     .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(collection.isSystem ? Theme.Colors.amieBlue : Color(hex: collection.colorHex))
+                    .foregroundColor(color)
             }
             
             VStack(alignment: .leading, spacing: 2) {

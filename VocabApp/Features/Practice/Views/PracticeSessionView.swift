@@ -61,15 +61,7 @@ struct PracticeSessionView: View {
     
     private var header: some View {
         HStack(spacing: 16) {
-            Button(action: { dismiss() }) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(Theme.Colors.textSecondary)
-                    .padding(8)
-                    .background(Theme.Colors.surface)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
-            }
+            IconButton(icon: "xmark", action: { dismiss() }, size: 36, iconSize: 16)
             
             ProgressView(value: viewModel.progress)
                 .tint(Theme.Colors.amieBlue)

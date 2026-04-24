@@ -22,8 +22,15 @@ protocol APIRequest {
 actor APIClient {
     private let session: URLSession
 
-    init(session: URLSession = .shared) {
-        self.session = session
+    init(session: URLSession? = nil) {
+        if let session = session {
+            self.session = session
+        } else {
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 15
+            config.timeoutIntervalForResource = 30
+            self.session = URLSession(configuration: config)
+        }
     }
 
     func send<T: APIRequest>(_ request: T) async throws -> T.Response {

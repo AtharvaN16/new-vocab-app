@@ -21,22 +21,30 @@ struct WordDetailView: View {
             VStack {
                 // Header
                 HStack(spacing: 16) {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(Theme.Colors.textSecondary)
-                            .padding(8)
-                            .background(Theme.Colors.surface)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
-                    }
+                    IconButton(icon: "xmark", action: { dismiss() }, size: 36, iconSize: 16)
+                    
                     Spacer()
                     
                     HStack(spacing: 8) {
+                        Button(action: {
+                            Task {
+                                try? await viewModel.deleteWord()
+                                dismiss()
+                            }
+                        }) {
+                            Image(systemName: "trash")
+                                .font(.system(size: 14))
+                                .foregroundColor(.red)
+                                .padding(10)
+                                .background(Theme.Colors.surface)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
+                        }
+
                         if viewModel.isBookmarked {
                             Image(systemName: "bookmark.fill")
                                 .font(.system(size: 14))
-                                .foregroundColor(Theme.Colors.amieBlue)
+                                .foregroundColor(Theme.Colors.amieOrange)
                                 .padding(10)
                                 .background(Theme.Colors.surface)
                                 .clipShape(Circle())
@@ -122,7 +130,7 @@ struct WordDetailView: View {
                 VStack {
                     Image(systemName: "bookmark.fill")
                         .font(.system(size: 40))
-                        .foregroundColor(Theme.Colors.amieBlue)
+                        .foregroundColor(Theme.Colors.amieOrange)
                         .opacity(min(Double(offset.height / verticalThreshold), 1.0))
                     Spacer()
                 }
@@ -223,10 +231,11 @@ struct WordCardContent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(word.word.capitalized)
-                    .font(.system(size: 44, weight: .bold, design: .serif))
-                    .foregroundColor(Theme.Colors.textPrimary)
-                
+                StickerText(
+                    text: word.word.capitalized,
+                    size: 44
+                )
+
                 if let phonetic = word.phonetic {
                     Text(phonetic)
                         .font(.system(.title2, design: .rounded))

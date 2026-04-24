@@ -5,7 +5,8 @@ struct FreeDictionaryRequest: APIRequest {
     let word: String
     
     var url: URL? {
-        URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)")
+        let encodedWord = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word
+        return URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(encodedWord)")
     }
     
     var method: HTTPMethod { .get }

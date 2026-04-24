@@ -34,7 +34,7 @@ struct WordEntity: Identifiable, Codable, Equatable {
         let isAIGenerated: Bool
     }
 
-    struct WordForm: Codable, Equatable {
+    struct WordForm: Codable, Equatable, Hashable {
         let form: String
         let relation: String // e.g., "past tense", "plural"
     }

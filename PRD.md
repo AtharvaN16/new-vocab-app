@@ -2,6 +2,8 @@
 
 ## Reference
 
+**Agent coding rules (keep in sync)**: `CLAUDE.md` and `GEMINI.md` — day-to-day Swift/SwiftUI conventions, architecture boundaries, and implementation-level UX (e.g. Home word card gestures). This PRD is product vision, screens, and stack; if a detail lives only in those files, follow it for implementation.
+
 **Old App (React Native)**: `/Users/atharvanayak/Desktop/VocabApp`
 - Full codebase of the original app — use as reference for existing features, data models, gestures, and AI integration patterns
 - Key files: `src/features/`, `src/services/`, `src/models/`, `App.tsx`

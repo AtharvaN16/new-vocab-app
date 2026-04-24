@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 
 @Observable
+@MainActor
 final class WordDetailViewModel {
     var word: WordEntity
     var isFavorited: Bool = false
@@ -105,15 +106,51 @@ final class WordDetailViewModel {
     @MainActor
     func toggleFavorite() async {
         isFavorited.toggle()
-        // TODO: Update collection repository
         triggerHaptic(.success)
+        
+        do {
+            // Ensure word is saved first
+            try await wordRepository.saveWord(word)
+            
+            let collections = try await collectionRepository.fetchCollections()
+            if let fav = collections.first(where: { $0.name == "Favorites" }) {
+                if isFavorited {
+                    try await collectionRepository.addWordToCollection(wordId: word.id, collectionId: fav.id)
+                } else {
+                    try await collectionRepository.removeWordFromCollection(wordId: word.id, collectionId: fav.id)
+                }
+            }
+        } catch {
+            print("Error toggling favorite: \(error)")
+        }
     }
 
     @MainActor
     func toggleBookmark() async {
         isBookmarked.toggle()
-        // TODO: Update collection repository
         triggerHaptic(.heavy)
+        
+        do {
+            // Ensure word is saved first
+            try await wordRepository.saveWord(word)
+            
+            let collections = try await collectionRepository.fetchCollections()
+            if let book = collections.first(where: { $0.name == "Bookmarked" }) {
+                if isBookmarked {
+                    try await collectionRepository.addWordToCollection(wordId: word.id, collectionId: book.id)
+                } else {
+                    try await collectionRepository.removeWordFromCollection(wordId: word.id, collectionId: book.id)
+                }
+            }
+        } catch {
+            print("Error toggling bookmark: \(error)")
+        }
+    }
+
+    @MainActor
+    func deleteWord() async throws {
+        try await wordRepository.deleteWord(id: word.id)
+        triggerHaptic(.success)
     }
 
     @MainActor

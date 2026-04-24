@@ -6,7 +6,8 @@ struct WordnikDefinitionRequest: APIRequest {
     let apiKey: String
     
     var url: URL? {
-        URL(string: "https://api.wordnik.com/v4/word.json/\(word)/definitions?limit=5&includeRelated=false&useCanonical=false&includeTags=false&api_key=\(apiKey)")
+        let encodedWord = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word
+        return URL(string: "https://api.wordnik.com/v4/word.json/\(encodedWord)/definitions?limit=5&includeRelated=false&useCanonical=false&includeTags=false&api_key=\(apiKey)")
     }
     
     var method: HTTPMethod { .get }
@@ -18,7 +19,8 @@ struct WordnikExampleRequest: APIRequest {
     let apiKey: String
     
     var url: URL? {
-        URL(string: "https://api.wordnik.com/v4/word.json/\(word)/examples?includeDuplicates=false&useCanonical=false&limit=5&api_key=\(apiKey)")
+        let encodedWord = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word
+        return URL(string: "https://api.wordnik.com/v4/word.json/\(encodedWord)/examples?includeDuplicates=false&useCanonical=false&limit=5&api_key=\(apiKey)")
     }
     
     var method: HTTPMethod { .get }

@@ -5,7 +5,8 @@ struct WiktionaryRequest: APIRequest {
     let word: String
     
     var url: URL? {
-        URL(string: "https://en.wiktionary.org/api/rest_v1/page/definition/\(word)")
+        let encodedWord = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word
+        return URL(string: "https://en.wiktionary.org/api/rest_v1/page/definition/\(encodedWord)")
     }
     
     var method: HTTPMethod { .get }
