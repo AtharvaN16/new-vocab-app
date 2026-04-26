@@ -5,6 +5,8 @@ struct LibraryView: View {
     @Environment(\.appEnvironment) private var appEnvironment
     @State private var showingAddAlert = false
     @State private var newCollectionName = ""
+    @State private var collectionToRename: CollectionEntity?
+    @State private var renameText = ""
 
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -15,19 +17,23 @@ struct LibraryView: View {
         NavigationStack {
             ZStack {
                 Theme.Colors.background.ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 32) {
                         // System Collections
                         LazyVGrid(columns: columns, spacing: 12) {
                             ForEach(viewModel.systemCollections) { collection in
                                 NavigationLink(value: collection) {
-                                    CollectionCard(collection: collection)
+                                    CollectionCard(
+                                        collection: collection,
+                                        isEditing: viewModel.isEditing
+                                    )
                                 }
+                                .disabled(viewModel.isEditing)
                             }
                         }
                         .padding(.horizontal)
-                        .padding(.top, 16) // Consistent top margin
+                        .padding(.top, 16)
 
                         // User Collections
                         VStack(alignment: .leading, spacing: 16) {
@@ -37,14 +43,16 @@ struct LibraryView: View {
                                     .tracking(1.5)
                                     .foregroundColor(Theme.Colors.textSecondary)
                                 Spacer()
-                                Button(action: { showingAddAlert = true }) {
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 14, weight: .bold))
-                                        .foregroundColor(Theme.Colors.amieBlue)
-                                        .padding(8)
-                                        .background(Theme.Colors.surface)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
+                                if !viewModel.isEditing {
+                                    Button(action: { showingAddAlert = true }) {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(Theme.Colors.amieBlue)
+                                            .padding(8)
+                                            .background(Theme.Colors.surface)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
+                                    }
                                 }
                             }
                             .padding(.horizontal)
@@ -61,8 +69,19 @@ struct LibraryView: View {
                                 LazyVGrid(columns: columns, spacing: 12) {
                                     ForEach(viewModel.userCollections) { collection in
                                         NavigationLink(value: collection) {
-                                            CollectionCard(collection: collection)
+                                            CollectionCard(
+                                                collection: collection,
+                                                isEditing: viewModel.isEditing,
+                                                onDelete: {
+                                                    viewModel.collectionToDelete = collection
+                                                },
+                                                onRename: {
+                                                    renameText = collection.name
+                                                    collectionToRename = collection
+                                                }
+                                            )
                                         }
+                                        .disabled(viewModel.isEditing)
                                     }
                                 }
                                 .padding(.horizontal)
@@ -73,6 +92,29 @@ struct LibraryView: View {
                 }
             }
             .navigationTitle("Library")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        withAnimation(Theme.Animation.spring) {
+                            appEnvironment?.selectedTab = 0
+                        }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.semibold)
+                            .foregroundColor(Theme.Colors.textPrimary)
+                    }
+                }
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(viewModel.isEditing ? "Done" : "Edit") {
+                        withAnimation(Theme.Animation.spring) {
+                            viewModel.isEditing.toggle()
+                        }
+                    }
+                    .fontWeight(.bold)
+                    .foregroundColor(Theme.Colors.textPrimary)
+                }
+            }
             .navigationDestination(for: CollectionEntity.self) { collection in
                 if let appEnv = appEnvironment {
                     CollectionDetailView(viewModel: CollectionDetailViewModel(
@@ -82,6 +124,9 @@ struct LibraryView: View {
                         srsRepository: appEnv.srsRepository
                     ))
                 }
+            }
+            .task {
+                await viewModel.loadCollections()
             }
             .refreshable {
                 await viewModel.loadCollections()
@@ -98,43 +143,38 @@ struct LibraryView: View {
             } message: {
                 Text("Enter a name for your new word collection.")
             }
-        }
-    }
-}
-
-struct CollectionCard: View {
-    let collection: CollectionEntity
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ZStack {
-                let isBookmarked = collection.name == "Bookmarked"
-                let color = isBookmarked ? Theme.Colors.amieOrange : (collection.isSystem ? Theme.Colors.amieBlue : Color(hex: collection.colorHex))
-                let icon = isBookmarked ? "bookmark.fill" : (collection.name == "Favorites" ? "heart.fill" : "folder.fill")
-                
-                Circle()
-                    .fill(color.opacity(0.1))
-                    .frame(width: 40, height: 40)
-                
-                Image(systemName: icon)
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(color)
+            .alert("Rename Collection", isPresented: Binding(
+                get: { collectionToRename != nil },
+                set: { if !$0 { collectionToRename = nil } }
+            )) {
+                TextField("Collection Name", text: $renameText)
+                Button("Cancel", role: .cancel) { renameText = "" }
+                Button("Rename") {
+                    if let collection = collectionToRename {
+                        Task {
+                            await viewModel.renameCollection(collection, to: renameText)
+                            renameText = ""
+                            collectionToRename = nil
+                        }
+                    }
+                }
+            } message: {
+                Text("Enter a new name for this collection.")
             }
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text(collection.name)
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundColor(Theme.Colors.textPrimary)
-                    .lineLimit(1)
-                
-                Text("\(collection.wordIds.count) words")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(Theme.Colors.textSecondary)
+            .alert("Delete Collection", isPresented: Binding(
+                get: { viewModel.collectionToDelete != nil },
+                set: { if !$0 { viewModel.collectionToDelete = nil } }
+            )) {
+                Button("Delete", role: .destructive) {
+                    if let collection = viewModel.collectionToDelete {
+                        Task { await viewModel.deleteCollection(collection) }
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("Are you sure you want to delete '\(viewModel.collectionToDelete?.name ?? "")'? This cannot be undone.")
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .amieCard()
     }
 }
 

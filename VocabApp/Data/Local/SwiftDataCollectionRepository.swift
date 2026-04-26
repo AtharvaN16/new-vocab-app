@@ -16,6 +16,25 @@ final class SwiftDataCollectionRepository: CollectionRepository {
     }
 
     @MainActor
+    func createCollection(name: String, colorHex: String) async throws -> CollectionEntity {
+        let entity = CollectionEntity(
+            id: UUID(),
+            name: name,
+            description: "",
+            colorHex: colorHex,
+            isPublic: false,
+            isSystem: false,
+            wordIds: [],
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+        let collectionSD = CollectionSD(from: entity)
+        modelContext.insert(collectionSD)
+        try modelContext.save()
+        return entity
+    }
+
+    @MainActor
     func saveCollection(_ collection: CollectionEntity) async throws {
         let id = collection.id
         let descriptor = FetchDescriptor<CollectionSD>(predicate: #Predicate { $0.id == id })
@@ -45,12 +64,12 @@ final class SwiftDataCollectionRepository: CollectionRepository {
     func addWordToCollection(wordId: UUID, collectionId: UUID) async throws {
         let wordDescriptor = FetchDescriptor<WordSD>(predicate: #Predicate { $0.id == wordId })
         let collectionDescriptor = FetchDescriptor<CollectionSD>(predicate: #Predicate { $0.id == collectionId })
-        
+
         guard let word = try modelContext.fetch(wordDescriptor).first,
               let collection = try modelContext.fetch(collectionDescriptor).first else {
             return
         }
-        
+
         if collection.words == nil { collection.words = [] }
         if !(collection.words?.contains(word) ?? false) {
             collection.words?.append(word)
@@ -62,12 +81,12 @@ final class SwiftDataCollectionRepository: CollectionRepository {
     func removeWordFromCollection(wordId: UUID, collectionId: UUID) async throws {
         let wordDescriptor = FetchDescriptor<WordSD>(predicate: #Predicate { $0.id == wordId })
         let collectionDescriptor = FetchDescriptor<CollectionSD>(predicate: #Predicate { $0.id == collectionId })
-        
+
         guard let word = try modelContext.fetch(wordDescriptor).first,
               let collection = try modelContext.fetch(collectionDescriptor).first else {
             return
         }
-        
+
         collection.words?.removeAll(where: { $0.id == word.id })
         try modelContext.save()
     }

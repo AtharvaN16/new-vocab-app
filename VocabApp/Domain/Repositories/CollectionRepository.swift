@@ -2,6 +2,7 @@ import Foundation
 
 protocol CollectionRepository {
     func fetchCollections() async throws -> [CollectionEntity]
+    func createCollection(name: String, colorHex: String) async throws -> CollectionEntity
     func saveCollection(_ collection: CollectionEntity) async throws
     func deleteCollection(id: UUID) async throws
     func addWordToCollection(wordId: UUID, collectionId: UUID) async throws

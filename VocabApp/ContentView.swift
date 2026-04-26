@@ -44,53 +44,6 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .animation(Theme.Animation.spring, value: appEnvironment.selectedTab)
 
-                // Floating Controls (Only on Home/Today and not expanded)
-                if appEnvironment.selectedTab == 0, navState.homeViewModel?.isExpanded == false {
-                    VStack {
-                        HStack {
-                            // Collections Button (Top Left)
-                            IconButton(icon: "square.grid.2x2") {
-                                withAnimation(Theme.Animation.spring) {
-                                    appEnvironment.selectedTab = 1
-                                }
-                            }
-                            
-                            Spacer()
-                            
-                            // Account Button (Top Right)
-                            IconButton(icon: "person.crop.circle") {
-                                withAnimation(Theme.Animation.spring) {
-                                    appEnvironment.selectedTab = 3
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 16)
-                        
-                        Spacer()
-                    }
-                    .transition(.opacity)
-                }
-                
-                // Floating Close Button for other tabs (Consistent frame and position)
-                if appEnvironment.selectedTab != 0 {
-                    VStack {
-                        HStack {
-                            Spacer()
-                            IconButton(icon: "xmark") {
-                                withAnimation(Theme.Animation.spring) {
-                                    appEnvironment.selectedTab = 0
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 16) // Exact same top padding as home buttons
-                        
-                        Spacer()
-                    }
-                    .transition(.opacity)
-                    .zIndex(100) // Ensure it's above everything
-                }
             }
             .ignoresSafeArea(.keyboard)
         } else {
@@ -133,41 +86,6 @@ struct ContentView: View {
             wordRepository: appEnvironment.wordRepository,
             collectionRepository: appEnvironment.collectionRepository
         )
-    }
-}
-
-// Fallback for non-iOS 26 (though project target is iOS 26+)
-extension View {
-    @ViewBuilder
-    func glassEffect(_ glass: GlassVariant = .regular, in shape: some Shape = Circle()) -> some View {
-        if #available(iOS 26, *) {
-            self.modifier(LiquidGlassModifier(variant: glass, shape: shape))
-        } else {
-            self.background(.ultraThinMaterial, in: shape)
-        }
-    }
-}
-
-enum GlassVariant {
-    case regular, clear
-    func interactive() -> GlassVariant { self }
-}
-
-struct LiquidGlassModifier<S: Shape>: ViewModifier {
-    let variant: GlassVariant
-    let shape: S
-    
-    func body(content: Content) -> some View {
-        content
-            .background {
-                shape
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        // Subtle inner glow/border for definition
-                        shape.stroke(.white.opacity(0.5), lineWidth: 1.0)
-                    }
-                    .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 4)
-            }
     }
 }
 

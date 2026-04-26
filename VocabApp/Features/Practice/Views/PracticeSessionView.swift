@@ -6,71 +6,77 @@ struct PracticeSessionView: View {
     @State private var isFlipped = false
 
     var body: some View {
-        ZStack {
-            Theme.Colors.background.ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                // Header
-                header
-                    .padding(.bottom, 20)
+        NavigationStack {
+            ZStack {
+                Theme.Colors.background.ignoresSafeArea()
                 
-                if viewModel.isLoading {
-                    Spacer()
-                    ProgressView()
-                        .tint(Theme.Colors.amieBlue)
-                    Spacer()
-                } else if viewModel.isFinished {
-                    completionView
-                } else if let item = viewModel.currentItem {
-                    Spacer()
-                    
-                    // Flashcard (Amie-style: Clean, refined depth)
-                    PracticeCardView(word: item.word, isFlipped: $isFlipped)
-                        .padding(24)
-                        .frame(maxHeight: 450)
-                    
-                    Spacer()
-                    
-                    // Controls
-                    if isFlipped {
-                        ratingButtons
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                    } else {
-                        Button(action: {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                            withAnimation(Theme.Animation.spring) {
-                                isFlipped = true
+                VStack(spacing: 0) {
+                    if viewModel.isLoading {
+                        Spacer()
+                        ProgressView()
+                            .tint(Theme.Colors.amieBlue)
+                        Spacer()
+                    } else if viewModel.isFinished {
+                        completionView
+                    } else if let item = viewModel.currentItem {
+                        Spacer()
+                        
+                        // Flashcard (Amie-style: Clean, refined depth)
+                        PracticeCardView(word: item.word, isFlipped: $isFlipped)
+                            .padding(24)
+                            .frame(maxHeight: 450)
+                        
+                        Spacer()
+                        
+                        // Controls
+                        if isFlipped {
+                            ratingButtons
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        } else {
+                            Button(action: {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                withAnimation(Theme.Animation.spring) {
+                                    isFlipped = true
+                                }
+                            }) {
+                                Text("TAP TO REVEAL")
+                                    .font(.system(size: 14, weight: .black))
+                                    .tracking(1)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 20)
+                                    .background(Theme.Colors.amieBlue)
+                                    .clipShape(Capsule())
                             }
-                        }) {
-                            Text("TAP TO REVEAL")
-                                .font(.system(size: 14, weight: .black))
-                                .tracking(1)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 20)
-                                .background(Theme.Colors.amieBlue)
-                                .clipShape(Capsule())
+                            .buttonStyle(AmieButtonStyle())
+                            .padding(24)
                         }
-                        .buttonStyle(AmieButtonStyle())
-                        .padding(24)
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.semibold)
+                    }
+                }
+                
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 8) {
+                        ProgressView(value: viewModel.progress)
+                            .frame(width: 100)
+                            .tint(Theme.Colors.amieBlue)
+                        
+                        Text("\(viewModel.currentIndex + 1)/\(viewModel.items.count)")
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(Theme.Colors.textSecondary)
                     }
                 }
             }
         }
-    }
-    
-    private var header: some View {
-        HStack(spacing: 16) {
-            IconButton(icon: "xmark", action: { dismiss() }, size: 36, iconSize: 16)
-            
-            ProgressView(value: viewModel.progress)
-                .tint(Theme.Colors.amieBlue)
-            
-            Text("\(viewModel.currentIndex + 1)/\(viewModel.items.count)")
-                .font(.system(size: 12, weight: .bold, design: .monospaced))
-                .foregroundColor(Theme.Colors.textSecondary)
-        }
-        .padding()
     }
     
     private var ratingButtons: some View {

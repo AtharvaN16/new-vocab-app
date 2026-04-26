@@ -11,7 +11,7 @@ final class CollectionSD {
     var isSystem: Bool = false
     var createdAt: Date
     var updatedAt: Date
-    
+
     // Relationship to words
     var words: [WordSD]?
 

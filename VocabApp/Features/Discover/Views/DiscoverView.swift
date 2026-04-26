@@ -126,6 +126,18 @@ struct DiscoverView: View {
             .onChange(of: appEnvironment?.shouldFocusSearch) { _, _ in
                 handleFocusTrigger()
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        withAnimation(Theme.Animation.spring) {
+                            appEnvironment?.selectedTab = 0
+                        }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.semibold)
+                    }
+                }
+            }
         }
     }
 

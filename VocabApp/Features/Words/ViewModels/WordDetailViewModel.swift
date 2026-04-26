@@ -8,7 +8,7 @@ final class WordDetailViewModel {
     var word: WordEntity
     var isFavorited: Bool = false
     var isBookmarked: Bool = false
-    var isExpanded: Bool = false
+    var isExpanded: Bool = true
     var isGeneratingAI: Bool = false
     var showCollections: Bool = false
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0451AEE4D8A169E66B0644DC /* CollectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9309187A2E059A5AB96E2A /* CollectionCard.swift */; };
 		04C1DA53D6CCC63C203229B8 /* AIServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9AE516BE00230D989CF3C /* AIServiceCoordinator.swift */; };
 		0558D4095842308761CE8FD2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33CCA4B8F340BD560A8A01 /* HomeView.swift */; };
 		07BDC3733C7243B30B443436 /* SyncRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694104F9118C1FF4E70341 /* SyncRepository.swift */; };
@@ -22,7 +23,6 @@
 		1AAB93BF89110803687876B7 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9496CA3B2BF2F24D8719F /* AuthRepository.swift */; };
 		20B8076BB0D77DE9775A35F1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721096F53AE4E794664F337D /* Theme.swift */; };
 		22A4FE3648C124E7774E1A4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0702460F543049310EA2B0DB /* Assets.xcassets */; };
-		DEF0123456789ABCDEF01234 /* DynaPuff-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC1A2B3C4D5E6F7890ABCDEF /* DynaPuff-Medium.ttf */; };
 		29A60B0417DD1BBE2EA6037E /* WordDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1277F30657B791A73CFB4BD1 /* WordDetailViewModel.swift */; };
 		29B7D5E5AD07095C17143C8F /* SupabaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EDA7B8AFEC43AF3E1F98BD /* SupabaseAuthService.swift */; };
 		2B97C674ECA40228739F6940 /* WordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42921C86DA611DED528057 /* WordEntity.swift */; };
@@ -50,20 +50,24 @@
 		9B558489EC21C84129562F42 /* MLXService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7898B01FED868FC5EA2EBB3D /* MLXService.swift */; };
 		9C2E3FAC0141F96C608BF34A /* WordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636521DA7D4866B0D2D9BDF0 /* WordDetailView.swift */; };
 		9E6829384C6D504660A58D2B /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E726D4F70640C5027896F7 /* AppEnvironment.swift */; };
+		9EBED660AA7A0583A44EE355 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33455C7C6507068C53D27AF /* MotionManager.swift */; };
 		A0F13134B02234C924A37472 /* SwiftDataWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA770CA411C79DABA01B58 /* SwiftDataWordRepository.swift */; };
 		A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91386D46998F20997D8FD8DF /* Normalizable.swift */; };
 		B406F080496EB9B22B2CCC5D /* SRSCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55905465A789DD49F288BC /* SRSCardEntity.swift */; };
 		B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */; };
 		BB21652D2BDDBB244CF4E8D7 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE18EB0EA140731224E8A /* KeychainHelper.swift */; };
 		C33C5AB6EF39778CC2C7331A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58D8B406FF34EFDC1E74368 /* HomeViewModel.swift */; };
+		C7E7C8945E6EBAA51ED8DA0D /* WordCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973C77EDD82DA05ACCB4740A /* WordCardView.swift */; };
 		C98D983930735722CD150569 /* WordSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF0C1B25595989F48B42D5 /* WordSD.swift */; };
 		CBCF4D0F4340747E0449D84B /* CollectionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */; };
 		D8F7268622C9EE88894DB988 /* FreeDictionaryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B33F523D8AAC74E1F08ABC2 /* FreeDictionaryDTO.swift */; };
 		DB65649225C3F319A4182C3D /* DictionaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */; };
 		DBBD0C32671DC374FA052014 /* SupabaseSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E378C9201AC802D92AF089B /* SupabaseSyncService.swift */; };
+		DFFE3E1FB71D2013D0F2644D /* DynaPuff-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3E6DCD9752A7442BF08F0 /* DynaPuff-Medium.ttf */; };
 		E373BC4F3673246CF5407558 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E2BE2DE6FF84B888EC831 /* ProfileView.swift */; };
 		E3823EEB6729CA54E5FB5F00 /* CollectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D7FA15ED56C79FC190C4BC /* CollectionRepository.swift */; };
 		E8BF2B9F6E60504071387FA1 /* WiktionaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD8071FBB2D7D2B5163E2B6 /* WiktionaryRequest.swift */; };
+		EA11B2186E7DAF60D149A8D4 /* WordExpandedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37851B26BCEA598CA0507D6D /* WordExpandedContentView.swift */; };
 		FF914CAC91B71F8D057961AF /* CollectionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889590ACDE35F3F6B165B637 /* CollectionDetailView.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +87,7 @@
 		306B8EB5AAD9EBFC7A75D250 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		32EDA7B8AFEC43AF3E1F98BD /* SupabaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseAuthService.swift; sourceTree = "<group>"; };
 		34266A824AC4CA2E244C4C50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		37851B26BCEA598CA0507D6D /* WordExpandedContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordExpandedContentView.swift; sourceTree = "<group>"; };
 		3AD98268E2BADC655968781D /* WiktionaryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiktionaryDTO.swift; sourceTree = "<group>"; };
 		3CE496B963EF2DB1BBF75DB2 /* WordnikRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordnikRequest.swift; sourceTree = "<group>"; };
 		42D249472835004884763095 /* CollectionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionEntity.swift; sourceTree = "<group>"; };
@@ -103,11 +108,13 @@
 		7B33F523D8AAC74E1F08ABC2 /* FreeDictionaryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeDictionaryDTO.swift; sourceTree = "<group>"; };
 		7BA9AE516BE00230D989CF3C /* AIServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceCoordinator.swift; sourceTree = "<group>"; };
 		7BFA770CA411C79DABA01B58 /* SwiftDataWordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataWordRepository.swift; sourceTree = "<group>"; };
+		7DF3E6DCD9752A7442BF08F0 /* DynaPuff-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DynaPuff-Medium.ttf"; sourceTree = "<group>"; };
 		889590ACDE35F3F6B165B637 /* CollectionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailView.swift; sourceTree = "<group>"; };
 		89A48A9FFFF0EFD80BCBE8E3 /* AddToCollectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCollectionSheet.swift; sourceTree = "<group>"; };
 		8A7E2BE2DE6FF84B888EC831 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8AB1E2156D66D37E4B21D2EE /* SwiftDataCollectionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCollectionRepository.swift; sourceTree = "<group>"; };
 		91386D46998F20997D8FD8DF /* Normalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Normalizable.swift; sourceTree = "<group>"; };
+		973C77EDD82DA05ACCB4740A /* WordCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardView.swift; sourceTree = "<group>"; };
 		9D894DF55F773F0BD3C44593 /* WordnikDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordnikDTO.swift; sourceTree = "<group>"; };
 		A168067B3ED820C36CF4C331 /* SRSRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSRepository.swift; sourceTree = "<group>"; };
 		A5CF0C1B25595989F48B42D5 /* WordSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSD.swift; sourceTree = "<group>"; };
@@ -121,13 +128,14 @@
 		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
 		E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionViewModel.swift; sourceTree = "<group>"; };
+		E33455C7C6507068C53D27AF /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		ED929C2D855F6D341484BCE8 /* SRSCardSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardSD.swift; sourceTree = "<group>"; };
 		F58D8B406FF34EFDC1E74368 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F5E726D4F70640C5027896F7 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		FA4BF4343537DAE81E7B1E67 /* FreeDictionaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeDictionaryRequest.swift; sourceTree = "<group>"; };
 		FB0B13B74F04C03B27333A83 /* AddToCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCollectionViewModel.swift; sourceTree = "<group>"; };
-		FC1A2B3C4D5E6F7890ABCDEF /* DynaPuff-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DynaPuff-Medium.ttf"; sourceTree = "<group>"; };
+		FC9309187A2E059A5AB96E2A /* CollectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -226,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				89A48A9FFFF0EFD80BCBE8E3 /* AddToCollectionSheet.swift */,
+				FC9309187A2E059A5AB96E2A /* CollectionCard.swift */,
 				889590ACDE35F3F6B165B637 /* CollectionDetailView.swift */,
 				7A09EC44FB5E14F1019691E4 /* LibraryView.swift */,
 			);
@@ -246,23 +255,17 @@
 			children = (
 				0702460F543049310EA2B0DB /* Assets.xcassets */,
 				721096F53AE4E794664F337D /* Theme.swift */,
-				AB9876543210FEDCBA987654 /* Fonts */,
+				81556B52C4930C867E86B1CC /* Fonts */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		AB9876543210FEDCBA987654 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				FC1A2B3C4D5E6F7890ABCDEF /* DynaPuff-Medium.ttf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		703FEFF12524258D5BC711F3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				973C77EDD82DA05ACCB4740A /* WordCardView.swift */,
 				636521DA7D4866B0D2D9BDF0 /* WordDetailView.swift */,
+				37851B26BCEA598CA0507D6D /* WordExpandedContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -309,6 +312,14 @@
 				34266A824AC4CA2E244C4C50 /* ProfileViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		81556B52C4930C867E86B1CC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7DF3E6DCD9752A7442BF08F0 /* DynaPuff-Medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		8FB7D40A330EC279875059DC /* Views */ = {
@@ -371,6 +382,7 @@
 				7BA9AE516BE00230D989CF3C /* AIServiceCoordinator.swift */,
 				F5E726D4F70640C5027896F7 /* AppEnvironment.swift */,
 				273DE18EB0EA140731224E8A /* KeychainHelper.swift */,
+				E33455C7C6507068C53D27AF /* MotionManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -548,7 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22A4FE3648C124E7774E1A4A /* Assets.xcassets in Resources */,
-				DEF0123456789ABCDEF01234 /* DynaPuff-Medium.ttf in Resources */,
+				DFFE3E1FB71D2013D0F2644D /* DynaPuff-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,6 +578,7 @@
 				57813D26BEC182E06805C6AC /* AddToCollectionViewModel.swift in Sources */,
 				9E6829384C6D504660A58D2B /* AppEnvironment.swift in Sources */,
 				1AAB93BF89110803687876B7 /* AuthRepository.swift in Sources */,
+				0451AEE4D8A169E66B0644DC /* CollectionCard.swift in Sources */,
 				FF914CAC91B71F8D057961AF /* CollectionDetailView.swift in Sources */,
 				CBCF4D0F4340747E0449D84B /* CollectionDetailViewModel.swift in Sources */,
 				7781670981AEA8788B44E23B /* CollectionEntity.swift in Sources */,
@@ -587,6 +600,7 @@
 				1008C30FF6B0346159D6C88F /* LoginView.swift in Sources */,
 				B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */,
 				9B558489EC21C84129562F42 /* MLXService.swift in Sources */,
+				9EBED660AA7A0583A44EE355 /* MotionManager.swift in Sources */,
 				A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */,
 				4E921D234C3C26B3538AC854 /* OpenRouterService.swift in Sources */,
 				10EC990CDFDDC46395D69A08 /* PracticeSessionView.swift in Sources */,
@@ -608,9 +622,11 @@
 				2C7AF28E8A087335B5B3FE26 /* VocabAppApp.swift in Sources */,
 				86DCC422ABFE2A8FC9C19D97 /* WiktionaryDTO.swift in Sources */,
 				E8BF2B9F6E60504071387FA1 /* WiktionaryRequest.swift in Sources */,
+				C7E7C8945E6EBAA51ED8DA0D /* WordCardView.swift in Sources */,
 				9C2E3FAC0141F96C608BF34A /* WordDetailView.swift in Sources */,
 				29A60B0417DD1BBE2EA6037E /* WordDetailViewModel.swift in Sources */,
 				2B97C674ECA40228739F6940 /* WordEntity.swift in Sources */,
+				EA11B2186E7DAF60D149A8D4 /* WordExpandedContentView.swift in Sources */,
 				983EEE97A5F07A9C8D4B148F /* WordRepository.swift in Sources */,
 				C98D983930735722CD150569 /* WordSD.swift in Sources */,
 				501CF429ED777BDAE74CACFB /* WordnikDTO.swift in Sources */,

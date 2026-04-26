@@ -9,41 +9,30 @@ struct CollectionDetailView: View {
     var body: some View {
         ZStack {
             Theme.Colors.background.ignoresSafeArea()
-            
-            List {
-                if viewModel.words.isEmpty && !viewModel.isLoading {
-                    ContentUnavailableView(
-                        "No words yet",
-                        systemImage: "book",
-                        description: Text("Add words from the Discover tab to build your collection.")
-                    )
-                    .listRowBackground(Color.clear)
-                } else {
-                    ForEach(viewModel.words) { word in
-                        Button(action: { selectedWord = word }) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(word.word.capitalized)
-                                        .font(.headline)
-                                        .foregroundStyle(Theme.Colors.textPrimary)
-                                    if let phonetic = word.phonetic {
-                                        Text(phonetic)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
+            DotMatrixBackground()
+
+            if viewModel.words.isEmpty && !viewModel.isLoading {
+                ContentUnavailableView(
+                    "No words yet",
+                    systemImage: "book",
+                    description: Text("Add words from the Discover tab to build your collection.")
+                )
+            } else {
+                ScrollView {
+                    VStack(spacing: 32) {
+                        ForEach(chunkItemsIntoRows()) { row in
+                            HStack(spacing: 0) {
+                                ForEach(row.items) { item in
+                                    stickerView(for: item)
                                 }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
                             }
+                            .frame(maxWidth: .infinity)
                         }
-                        .listRowBackground(Theme.Colors.surface)
                     }
-                    .onDelete(perform: viewModel.deleteWord)
+                    .padding(.vertical, 40)
+                    .padding(.horizontal, 24)
                 }
             }
-            .scrollContentBackground(.hidden)
         }
         .navigationTitle(viewModel.collection.name)
         .toolbar {
@@ -81,5 +70,54 @@ struct CollectionDetailView: View {
         .refreshable {
             await viewModel.loadWords()
         }
+    }
+
+    @ViewBuilder
+    private func stickerView(for item: CollectionDetailViewModel.StickerLayoutItem) -> some View {
+        Button(action: { selectedWord = item.word }) {
+            StickerText(text: item.word.word, size: item.fontSize, fillColor: .black)
+                .padding(.horizontal, 16)
+                .rotationEffect(.degrees(item.rotation))
+                .offset(x: item.xOffset, y: item.yOffset)
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(AmieButtonStyle())
+        .contextMenu {
+            Button(role: .destructive) {
+                viewModel.removeWord(item.word)
+            } label: {
+                Label("Remove from Collection", systemImage: "trash")
+            }
+        }
+    }
+
+    private struct StickerRow: Identifiable {
+        let id: String
+        let items: [CollectionDetailViewModel.StickerLayoutItem]
+    }
+
+    private func chunkItemsIntoRows() -> [StickerRow] {
+        var rows: [StickerRow] = []
+        var currentIndex = 0
+        let items = viewModel.stickerLayouts
+
+        while currentIndex < items.count {
+            let item = items[currentIndex]
+
+            if item.spansFullWidth {
+                rows.append(StickerRow(id: item.id.uuidString, items: [item]))
+                currentIndex += 1
+            } else {
+                if currentIndex + 1 < items.count && !items[currentIndex + 1].spansFullWidth {
+                    let nextItem = items[currentIndex + 1]
+                    rows.append(StickerRow(id: "\(item.id.uuidString)-\(nextItem.id.uuidString)", items: [item, nextItem]))
+                    currentIndex += 2
+                } else {
+                    rows.append(StickerRow(id: item.id.uuidString, items: [item]))
+                    currentIndex += 1
+                }
+            }
+        }
+        return rows
     }
 }

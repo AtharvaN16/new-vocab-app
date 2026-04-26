@@ -36,6 +36,9 @@ final class HomeViewModel {
 
     @MainActor
     func loadData() async {
+        // Prevent redundant loading if we already have words
+        guard words.isEmpty || isLoading else { return }
+        
         isLoading = true
         do {
             let allWords = try await wordRepository.fetchWords()

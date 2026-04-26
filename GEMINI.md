@@ -91,7 +91,7 @@ State assumptions explicitly. If uncertain, ask. Present options and flag confus
 Minimal, direct solutions. No speculative features. If code exceeds reasonable length, rewrite it. Ask: *"Would a senior engineer say this is overcomplicated?"*
 
 **Surgical changes**
-When modifying existing code, preserve surrounding style. Every changed line should trace directly to the user request. Only remove code your changes rendered obsolete.
+When modifying existing code, preserve surrounding style. Every changed line should trace directly to the user request. Only remove code your changes rendered obsolete. Never create new styles, or components, without asking, if existing components exist reuse it for consistency.
 
 **Goal-driven execution**
 Transform vague requests into measurable outcomes with verification steps. Instead of "make it work," establish concrete success criteria.

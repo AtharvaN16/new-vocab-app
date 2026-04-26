@@ -104,6 +104,19 @@ struct ProfileView: View {
                 .padding(.top, 16) // Consistent top margin
             }
             .navigationTitle("Profile")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        withAnimation(Theme.Animation.spring) {
+                            appEnvironment?.selectedTab = 0
+                        }
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .fontWeight(.semibold)
+                            .foregroundColor(Theme.Colors.textPrimary)
+                    }
+                }
+            }
             .sheet(isPresented: $showingLogin) {
                 if let appEnv = appEnvironment {
                     LoginView(viewModel: LoginViewModel(authRepository: appEnv.authRepository))
