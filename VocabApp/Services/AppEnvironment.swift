@@ -67,7 +67,7 @@ final class AppEnvironment {
             let collections = try await collectionRepo.fetchCollections()
             let systemNames = ["Favorites", "Bookmarked"]
             
-            for name in systemNames {
+            for (index, name) in systemNames.enumerated() {
                 if !collections.contains(where: { $0.name == name }) {
                     let newCollection = CollectionEntity(
                         id: UUID(),
@@ -76,6 +76,7 @@ final class AppEnvironment {
                         colorHex: name == "Favorites" ? "#FF3B30" : "#007AFF",
                         isPublic: false,
                         isSystem: true,
+                        sortOrder: index - 100, // System collections at the very top
                         wordIds: [],
                         createdAt: Date(),
                         updatedAt: Date()

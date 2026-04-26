@@ -3,7 +3,8 @@ import SwiftUI
 struct WordDetailView: View {
     @State var viewModel: WordDetailViewModel
     @Environment(\.dismiss) private var dismiss
-    @State private var heartState: HeartState? = nil
+    @State private var heartStates: [HeartState] = []
+    @State private var messageState: MessageState? = nil
 
     var body: some View {
         NavigationStack {
@@ -23,10 +24,21 @@ struct WordDetailView: View {
                     showToggle: false,
                     isFullHeight: true
                 )
-
-                if let state = heartState {
-                    HeartOverlay(state: state) { heartState = nil }
+            }
+            .overlay {
+                ZStack {
+                    ForEach(heartStates) { state in
+                        HeartOverlay(state: state) {
+                            heartStates.removeAll(where: { $0.id == state.id })
+                        }
+                    }
+                    
+                    MessageOverlay(
+                        state: $messageState,
+                        onRemove: { Task { await viewModel.toggleFavorite() } }
+                    )
                 }
+                .ignoresSafeArea()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -43,9 +55,31 @@ struct WordDetailView: View {
     private func handleDoubleTap(at point: CGPoint) {
         let alreadyFav = viewModel.isFavorited
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        heartState = HeartState(tapPoint: point, alreadyAdded: alreadyFav)
-        if !alreadyFav {
-            Task { await viewModel.toggleFavorite() }
+        
+        // Always spawn a heart
+        heartStates.append(HeartState(tapPoint: point))
+        
+        // Handle message state transitions
+        if alreadyFav {
+            if messageState?.type != .already && messageState?.type != .removed {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    messageState = MessageState(type: .already)
+                }
+            }
+        } else {
+            if messageState?.type != .added {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    messageState = MessageState(type: .added)
+                }
+                Task { await viewModel.toggleFavorite() }
+                
+                let id = messageState?.id
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    if messageState?.id == id {
+                        withAnimation { messageState = nil }
+                    }
+                }
+            }
         }
     }
 }

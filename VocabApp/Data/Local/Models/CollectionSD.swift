@@ -9,6 +9,7 @@ final class CollectionSD {
     var colorHex: String
     var isPublic: Bool
     var isSystem: Bool = false
+    var sortOrder: Int = 0
     var createdAt: Date
     var updatedAt: Date
 
@@ -22,6 +23,7 @@ final class CollectionSD {
         self.colorHex = entity.colorHex
         self.isPublic = entity.isPublic
         self.isSystem = entity.isSystem
+        self.sortOrder = entity.sortOrder
         self.createdAt = entity.createdAt
         self.updatedAt = entity.updatedAt
         self.words = []
@@ -35,6 +37,7 @@ final class CollectionSD {
             colorHex: colorHex,
             isPublic: isPublic,
             isSystem: isSystem,
+            sortOrder: sortOrder,
             wordIds: words?.map { $0.id } ?? [],
             createdAt: createdAt,
             updatedAt: updatedAt

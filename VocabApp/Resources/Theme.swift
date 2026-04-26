@@ -411,12 +411,114 @@ struct PullIndicator: View {
 
 // MARK: - Heart Overlay Animation
 
-struct HeartState {
+struct PixelHeart: View {
+    let color: Color
+    var showHighlight: Bool = true
+    var shimmerOffset: Int = -20 // In pixel units
+
+    var body: some View {
+        Canvas { context, size in
+            let px = size.width / 16
+            let py = size.height / 16
+            
+            func drawPixel(x: Int, y: Int, color: Color) {
+                let rect = CGRect(x: CGFloat(x) * px, y: CGFloat(y) * py, width: px, height: py)
+                context.fill(Path(rect), with: .color(color))
+            }
+            
+            // 1. Heart Grid Definition (16x16)
+            let heartPixels: Set<[Int]> = {
+                var pixels = Set<[Int]>()
+                for x in 3...5 { pixels.insert([x, 2]) }
+                for x in 10...12 { pixels.insert([x, 2]) }
+                for x in 2...6 { pixels.insert([x, 3]) }
+                for x in 9...13 { pixels.insert([x, 3]) }
+                for y in 4...8 { for x in 1...14 { pixels.insert([x, y]) } }
+                for x in 2...13 { pixels.insert([x, 9]) }
+                for x in 3...12 { pixels.insert([x, 10]) }
+                for x in 4...11 { pixels.insert([x, 11]) }
+                for x in 5...10 { pixels.insert([x, 12]) }
+                for x in 6...9 { pixels.insert([x, 13]) }
+                for x in 7...8 { pixels.insert([x, 14]) }
+                return pixels
+            }()
+            
+            // 2. Draw Pixel Shadow (Offset black pixels)
+            for p in heartPixels {
+                drawPixel(x: p[0] + 1, y: p[1] + 1, color: Color.black.opacity(0.12))
+            }
+            
+            // 3. Draw Body (Border + Fill + Shimmer)
+            for p in heartPixels {
+                let x = p[0]
+                let y = p[1]
+                
+                // Border Check: If any neighbor is empty, it's a border
+                let isBorder = !heartPixels.contains([x-1, y]) || 
+                               !heartPixels.contains([x+1, y]) || 
+                               !heartPixels.contains([x, y-1]) || 
+                               !heartPixels.contains([x, y+1])
+                
+                if isBorder {
+                    drawPixel(x: x, y: y, color: .black)
+                } else {
+                    var pixelColor = color
+                    
+                    // Static Highlight
+                    if showHighlight {
+                        if (x == 3 && y == 3) || (x == 4 && y == 3) || (x == 3 && y == 4) {
+                            pixelColor = .white.opacity(0.8)
+                        } else if (x == 5 && y == 3) || (x == 4 && y == 4) || (x == 3 && y == 5) {
+                            pixelColor = .white.opacity(0.3)
+                        }
+                    }
+                    
+                    // CURVED Shimmer (Circular arc sweep)
+                    let dx = CGFloat(x) + 4
+                    let dy = CGFloat(y) + 4
+                    let dist = sqrt(dx*dx + dy*dy)
+                    let targetDist = CGFloat(shimmerOffset)
+                    
+                    if abs(dist - targetDist) < 1.4 {
+                        pixelColor = .white.opacity(0.4)
+                    }
+                    
+                    drawPixel(x: x, y: y, color: pixelColor)
+                }
+            }
+        }
+    }
+}
+
+struct HeartState: Identifiable {
+    let id = UUID()
     let tapPoint: CGPoint
-    let alreadyAdded: Bool
-    init(tapPoint: CGPoint, alreadyAdded: Bool) {
+    let swayOffset: CGFloat
+    let rotation: Double
+    
+    init(tapPoint: CGPoint) {
         self.tapPoint = tapPoint
-        self.alreadyAdded = alreadyAdded
+        self.swayOffset = CGFloat.random(in: -50...50)
+        self.rotation = Double.random(in: -30...30)
+    }
+}
+
+enum MessageType: Equatable {
+    case added
+    case already
+    case removed
+}
+
+struct MessageState: Identifiable, Equatable {
+    let id = UUID()
+    var type: MessageType
+    
+    var text: String {
+        switch type {
+        case .added: return "Added to favorites"
+        case .already: return "Already in favorites"
+        case .removed: return "Removed from favorites"
+        }
     }
 }
 
@@ -424,64 +526,130 @@ struct HeartOverlay: View {
     let state: HeartState
     let onDone: () -> Void
 
-    init(state: HeartState, onDone: @escaping () -> Void) {
-        self.state = state
-        self.onDone = onDone
-    }
-
     @State private var heartY: CGFloat = 0
     @State private var heartSwayX: CGFloat = 0
-    @State private var heartScale: CGFloat = 0
+    @State private var heartScale: CGFloat = 0.01
     @State private var heartOpacity: Double = 0
-    @State private var msgScale: CGFloat = 0
-    @State private var msgOpacity: Double = 0
+    @State private var shimmerStep: Int = -10
 
     var body: some View {
-        ZStack {
-            Text(state.alreadyAdded ? "Already in favorites" : "Added to favorites")
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(Theme.Colors.textPrimary)
-                .scaleEffect(msgScale)
-                .opacity(msgOpacity)
-                .position(x: UIScreen.main.bounds.width / 2, y: 120)
-            if !state.alreadyAdded {
-                Text("❤️")
-                    .font(.system(size: 80))
-                    .scaleEffect(heartScale)
-                    .opacity(heartOpacity)
-                    .offset(x: heartSwayX, y: heartY)
-                    .position(x: state.tapPoint.x, y: state.tapPoint.y)
-            }
-        }
-        .allowsHitTesting(false)
-        .onAppear(perform: animate)
-    }
-
-    private func animate() {
-        withAnimation(.spring(response: 0.6, dampingFraction: 0.25)) {
-            heartScale = 1; heartOpacity = 1
-            msgScale   = 1; msgOpacity   = 1
-        } completion: {
-            if state.alreadyAdded {
-                withAnimation(.easeOut(duration: 0.4).delay(2.5)) {
-                    msgOpacity = 0; msgScale = 0.85
-                } completion: { onDone() }
-                return
-            }
-            let targetY = -(state.tapPoint.y - 120)
-            withAnimation(.linear(duration: 1.2)) { heartY = targetY } completion: {
-                withAnimation(.spring(response: 0.2, dampingFraction: 0.15)) {
-                    heartScale = 1.3; msgScale = 1.2
+        PixelHeart(color: .red, shimmerOffset: shimmerStep)
+            .frame(width: 40, height: 40)
+            .scaleEffect(heartScale)
+            .rotationEffect(.degrees(state.rotation))
+            .opacity(heartOpacity)
+            .offset(x: heartSwayX, y: heartY)
+            .position(x: state.tapPoint.x, y: state.tapPoint.y)
+            .allowsHitTesting(false)
+            .onAppear {
+                let duration: Double = 10.0
+                
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.5)) {
+                    heartScale = 1.0
+                    heartOpacity = 1.0
                 }
-                withAnimation(.easeOut(duration: 0.3)) {
-                    heartOpacity = 0; msgOpacity = 0
-                } completion: { onDone() }
-            }
-            withAnimation(.linear(duration: 0.4)) { heartSwayX = 20  } completion: {
-                withAnimation(.linear(duration: 0.4)) { heartSwayX = -20 } completion: {
-                    withAnimation(.linear(duration: 0.4)) { heartSwayX = 0 }
+                
+                withAnimation(.easeOut(duration: duration)) {
+                    heartY = -UIScreen.main.bounds.height - 100
                 }
+                
+                withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
+                    heartSwayX = state.swayOffset
+                }
+                
+                // Pixelated shimmer step animation
+                withAnimation(.linear(duration: 3.0).repeatForever(autoreverses: false)) {
+                    shimmerStep = 30
+                }
+                
+                withAnimation(.easeIn(duration: 1.5).delay(duration - 1.5)) {
+                    heartOpacity = 0
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + duration) { onDone() }
             }
-        }
     }
 }
+
+struct MessageOverlay: View {
+    @Binding var state: MessageState?
+    let onRemove: () -> Void
+    
+    @State private var showButton = false
+    
+    var body: some View {
+        ZStack(alignment: .top) {
+            if let active = state {
+                VStack(spacing: 8) {
+                    // Stable Text Area
+                    Text(active.text)
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .foregroundColor(Theme.Colors.textPrimary)
+                        .frame(height: 24)
+                        .id(active.type)
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .top).combined(with: .opacity),
+                            removal: .opacity
+                        ))
+                    
+                    // Interaction Area
+                    ZStack {
+                        if active.type == .already && showButton {
+                            Button {
+                                onRemove()
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                    state?.type = .removed
+                                }
+                                // Auto-dismiss removed message after short delay
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                    if state?.type == .removed {
+                                        withAnimation { state = nil }
+                                    }
+                                }
+                            } label: {
+                                Text("REMOVE")
+                                    .font(.system(size: 11, weight: .black, design: .monospaced))
+                                    .foregroundColor(Theme.Colors.textPrimary)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 20)
+                                    .background(Color(.systemGray5))
+                                    .clipShape(Capsule())
+                            }
+                            .transition(.asymmetric(
+                                insertion: .springScale.combined(with: .opacity),
+                                removal: .opacity
+                            ))
+                        }
+                    }
+                    .frame(height: 40)
+                }
+                .padding(.top, 130)
+                .frame(maxWidth: .infinity)
+                .onAppear {
+                    // Delay the button appearance slightly to decouple it from text
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.15)) {
+                        showButton = true
+                    }
+                }
+                .onDisappear {
+                    showButton = false
+                }
+                .onChange(of: active.type) { _, newValue in
+                    if newValue != .already {
+                        showButton = false
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .allowsHitTesting(state?.type == .already) 
+    }
+}
+
+extension AnyTransition {
+    static var springScale: AnyTransition {
+        .scale(scale: 0.7).combined(with: .move(edge: .bottom))
+    }
+}
+

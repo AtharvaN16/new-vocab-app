@@ -8,6 +8,7 @@ struct CollectionEntity: Identifiable, Codable, Equatable, Hashable, Transferabl
     var colorHex: String
     var isPublic: Bool
     var isSystem: Bool
+    var sortOrder: Int
 
     // Relationship IDs (Domain entities don't hold object references to avoid cycles/heavy objects)
     var wordIds: [UUID]

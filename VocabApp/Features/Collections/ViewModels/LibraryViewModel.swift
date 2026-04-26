@@ -8,6 +8,11 @@ final class LibraryViewModel {
     var isLoading: Bool = false
     var isEditing: Bool = false
     var collectionToDelete: CollectionEntity?
+    var draggingCollection: CollectionEntity?
+    
+    // Custom drag reordering state
+    var draggedID: UUID?
+    var dragOffset: CGFloat = 0
 
     private let collectionRepository: CollectionRepository
 
@@ -27,6 +32,11 @@ final class LibraryViewModel {
             let systemNames = ["Favorites", "Bookmarked"]
 
             self.systemCollections = all.filter { systemNames.contains($0.name) }
+                .sorted { a, b in
+                    if a.name == "Bookmarked" { return true }
+                    if b.name == "Bookmarked" { return false }
+                    return a.name < b.name
+                }
             self.userCollections = all.filter { !systemNames.contains($0.name) }
             self.isLoading = false
         } catch {
@@ -60,5 +70,20 @@ final class LibraryViewModel {
         updated.updatedAt = Date()
         try? await collectionRepository.saveCollection(updated)
         await loadCollections()
+    }
+
+    @MainActor
+    func moveUserCollection(from source: IndexSet, to destination: Int) {
+        userCollections.move(fromOffsets: source, toOffset: destination)
+        
+        // Sync to DB in background
+        let updatedCollections = userCollections
+        Task {
+            for (index, collection) in updatedCollections.enumerated() {
+                var updated = collection
+                updated.sortOrder = index
+                try? await collectionRepository.saveCollection(updated)
+            }
+        }
     }
 }

@@ -56,6 +56,7 @@ struct WordCardView: View {
             .scaleEffect(cardScale)
             .opacity(cardOpacity)
             .simultaneousGesture(
+                isExpanded ? nil :
                 SpatialTapGesture(count: 2, coordinateSpace: .global)
                     .onEnded { handleDoubleTap(at: $0.location) }
             )

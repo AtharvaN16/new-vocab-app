@@ -10,13 +10,18 @@ final class SwiftDataCollectionRepository: CollectionRepository {
 
     @MainActor
     func fetchCollections() async throws -> [CollectionEntity] {
-        let descriptor = FetchDescriptor<CollectionSD>(sortBy: [SortDescriptor(\.name)])
+        let descriptor = FetchDescriptor<CollectionSD>(sortBy: [SortDescriptor(\.sortOrder)])
         let collections = try modelContext.fetch(descriptor)
         return collections.map { $0.toDomain() }
     }
 
     @MainActor
     func createCollection(name: String, colorHex: String) async throws -> CollectionEntity {
+        // Find highest sortOrder
+        let descriptor = FetchDescriptor<CollectionSD>(sortBy: [SortDescriptor(\.sortOrder, order: .reverse)])
+        let existing = try modelContext.fetch(descriptor)
+        let nextOrder = (existing.first?.sortOrder ?? -1) + 1
+
         let entity = CollectionEntity(
             id: UUID(),
             name: name,
@@ -24,6 +29,7 @@ final class SwiftDataCollectionRepository: CollectionRepository {
             colorHex: colorHex,
             isPublic: false,
             isSystem: false,
+            sortOrder: nextOrder,
             wordIds: [],
             createdAt: Date(),
             updatedAt: Date()

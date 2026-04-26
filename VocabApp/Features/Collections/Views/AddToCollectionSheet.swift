@@ -50,7 +50,7 @@ struct AddToCollectionSheet: View {
                                             .tracking(1.5)
                                             .foregroundColor(Theme.Colors.textSecondary)
 
-                                        LazyVGrid(columns: columns, spacing: 12) {
+                                        VStack(spacing: 12) {
                                             ForEach(viewModel.userCollections) { collection in
                                                 CollectionCard(
                                                     collection: collection,

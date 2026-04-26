@@ -7,7 +7,12 @@ struct HomeView: View {
     @State private var lockedAxis: GestureAxis? = nil
     @State private var pullDownDistance: CGFloat = 0
     @State private var pullUpDistance: CGFloat = 0
-    @State private var heartState: HeartState? = nil
+    @State private var hasTriggeredDownHaptic = false
+    @State private var hasTriggeredUpHaptic = false
+    @State private var lastDownStep = 0
+    @State private var lastUpStep = 0
+    @State private var heartStates: [HeartState] = []
+    @State private var messageState: MessageState? = nil
 
     private let screenW = UIScreen.main.bounds.width
 
@@ -79,13 +84,50 @@ struct HomeView: View {
                         .allowsHitTesting(false)
                     }
 
-                    if let state = heartState {
-                        HeartOverlay(state: state) { heartState = nil }
+                    // Toast Banner
+                    if viewModel.showToast {
+                        VStack {
+                            Spacer()
+                            ToastBanner(
+                                message: viewModel.toastMessage,
+                                actionLabel: "Edit",
+                                action: {
+                                    viewModel.showToast = false
+                                    viewModel.showAddToCollection = true
+                                },
+                                secondaryActionLabel: "Undo",
+                                secondaryActionIcon: "arrow.uturn.backward",
+                                secondaryAction: {
+                                    Task { await viewModel.undoSaveToDefaultCollection() }
+                                }
+                            )
+                            .padding(.bottom, 120)
+                        }
+                        .zIndex(20)
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .bottom).combined(with: .opacity),
+                            removal: .opacity.combined(with: .scale(scale: 0.9))
+                        ))
                     }
                 }
                 .contentShape(Rectangle())
                 .simultaneousGesture(viewModel.isExpanded ? nil : dragGesture)
             }
+        }
+        .overlay {
+            ZStack {
+                ForEach(heartStates) { state in
+                    HeartOverlay(state: state) {
+                        heartStates.removeAll(where: { $0.id == state.id })
+                    }
+                }
+                
+                MessageOverlay(
+                    state: $messageState,
+                    onRemove: { Task { await viewModel.removeFromFavorites() } }
+                )
+            }
+            .ignoresSafeArea()
         }
         .sheet(isPresented: $viewModel.showAddToCollection) {
             Task { await viewModel.loadData() }
@@ -127,6 +169,12 @@ struct HomeView: View {
             }
         }
         .animation(.snappy, value: viewModel.isExpanded)
+        .onChange(of: viewModel.currentIndex) {
+            withAnimation { messageState = nil }
+        }
+        .onChange(of: viewModel.isExpanded) {
+            withAnimation { messageState = nil }
+        }
         } // NavigationStack
     }
 
@@ -147,14 +195,58 @@ struct HomeView: View {
                     } else {
                         pullUpDistance = 0
                     }
+                    
+                    // Ramp-up haptics
+                    let downProgress = min(1, pullDownDistance / downThreshold)
+                    let downStep = Int(downProgress * 20) // 0 to 20 (5% steps)
+                    if downStep > lastDownStep && downStep < 20 {
+                        let intensity = CGFloat(downStep) / 20.0
+                        let generator = UIImpactFeedbackGenerator(style: .soft)
+                        generator.impactOccurred(intensity: intensity)
+                        lastDownStep = downStep
+                    } else if downStep < lastDownStep {
+                        lastDownStep = downStep
+                    }
+
+                    let upProgress = min(1, pullUpDistance / upThreshold)
+                    let upStep = Int(upProgress * 20) // 0 to 20 (5% steps)
+                    if upStep > lastUpStep && upStep < 20 {
+                        let intensity = CGFloat(upStep) / 20.0
+                        let generator = UIImpactFeedbackGenerator(style: .soft)
+                        generator.impactOccurred(intensity: intensity)
+                        lastUpStep = upStep
+                    } else if upStep < lastUpStep {
+                        lastUpStep = upStep
+                    }
+
+                    // Trigger final haptic when threshold is reached
+                    if pullDownDistance >= downThreshold && !hasTriggeredDownHaptic {
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                        hasTriggeredDownHaptic = true
+                    } else if pullDownDistance < downThreshold {
+                        hasTriggeredDownHaptic = false
+                    }
+                    
+                    if pullUpDistance >= upThreshold && !hasTriggeredUpHaptic {
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                        hasTriggeredUpHaptic = true
+                    } else if pullUpDistance < upThreshold {
+                        hasTriggeredUpHaptic = false
+                    }
                 }
             }
             .onEnded { v in
-                defer { lockedAxis = nil }
+                defer { 
+                    lockedAxis = nil
+                    hasTriggeredDownHaptic = false
+                    hasTriggeredUpHaptic = false
+                    lastDownStep = 0
+                    lastUpStep = 0
+                }
 
                 if lockedAxis == .vertical {
                     if pullDownDistance >= downThreshold {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                             pullDownDistance = 0
                         } completion: {
@@ -162,11 +254,11 @@ struct HomeView: View {
                             appEnvironment?.selectedTab = 2
                         }
                     } else if pullUpDistance >= upThreshold && !viewModel.words.isEmpty {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                             pullUpDistance = 0
                         } completion: {
-                            viewModel.showAddToCollection = true
+                            Task { await viewModel.saveToDefaultCollection() }
                         }
                     } else {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
@@ -181,9 +273,42 @@ struct HomeView: View {
     private func handleDoubleTap(at point: CGPoint) {
         let alreadyFav = viewModel.isCurrentWordFavorited
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        heartState = HeartState(tapPoint: point, alreadyAdded: alreadyFav)
-        if !alreadyFav {
-            Task { await viewModel.addToFavorites() }
+        
+        // Always spawn a heart
+        heartStates.append(HeartState(tapPoint: point))
+        
+        // Handle message state transitions
+        if alreadyFav {
+            // If already showing "already" or "removed", don't restart the message flow
+            if messageState?.type != .already && messageState?.type != .removed {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    messageState = MessageState(type: .already)
+                }
+                
+                // Auto-dismiss Already message after delay
+                let id = messageState?.id
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    if messageState?.id == id {
+                        withAnimation { messageState = nil }
+                    }
+                }
+            }
+        } else {
+            // If just favorited, show "Added" and auto-dismiss
+            if messageState?.type != .added {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    messageState = MessageState(type: .added)
+                }
+                Task { await viewModel.addToFavorites() }
+                
+                // Auto-dismiss Added message after delay
+                let id = messageState?.id
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    if messageState?.id == id {
+                        withAnimation { messageState = nil }
+                    }
+                }
+            }
         }
     }
 }

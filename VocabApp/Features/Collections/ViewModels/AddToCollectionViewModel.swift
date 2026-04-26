@@ -38,18 +38,6 @@ final class AddToCollectionViewModel {
                 try? await collectionRepository.addWordToCollection(wordId: word.id, collectionId: bookmarkedCollection.id)
                 await loadCollections()
             }
-            // Show message anyway as requested
-            message = "Word bookmarked"
-            withAnimation {
-                showMessage = true
-            }
-            
-            // Hide after 2 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation {
-                    self.showMessage = false
-                }
-            }
         }
     }
 

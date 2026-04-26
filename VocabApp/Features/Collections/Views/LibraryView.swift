@@ -43,18 +43,19 @@ struct LibraryView: View {
                                     .tracking(1.5)
                                     .foregroundColor(Theme.Colors.textSecondary)
                                 Spacer()
-                                if !viewModel.isEditing {
-                                    Button(action: { showingAddAlert = true }) {
-                                        Image(systemName: "plus")
-                                            .font(.system(size: 14, weight: .bold))
-                                            .foregroundColor(Theme.Colors.amieBlue)
-                                            .padding(8)
-                                            .background(Theme.Colors.surface)
-                                            .clipShape(Circle())
-                                            .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
-                                    }
+                                Button(action: { showingAddAlert = true }) {
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(Theme.Colors.amieBlue)
+                                        .padding(8)
+                                        .background(Theme.Colors.surface)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Theme.Colors.border, lineWidth: 1))
                                 }
+                                .opacity(viewModel.isEditing ? 0 : 1)
+                                .disabled(viewModel.isEditing)
                             }
+                            .frame(height: 32) // Fixed height to prevent vertical jump
                             .padding(.horizontal)
 
                             if viewModel.userCollections.isEmpty {
@@ -66,12 +67,12 @@ struct LibraryView: View {
                                     .amieCard()
                                     .padding(.horizontal)
                             } else {
-                                LazyVGrid(columns: columns, spacing: 12) {
+                                VStack(spacing: 12) {
                                     ForEach(viewModel.userCollections) { collection in
-                                        NavigationLink(value: collection) {
+                                        if viewModel.isEditing {
                                             CollectionCard(
                                                 collection: collection,
-                                                isEditing: viewModel.isEditing,
+                                                isEditing: true,
                                                 onDelete: {
                                                     viewModel.collectionToDelete = collection
                                                 },
@@ -80,8 +81,68 @@ struct LibraryView: View {
                                                     collectionToRename = collection
                                                 }
                                             )
+                                            .scaleEffect(viewModel.draggedID == collection.id ? 1.02 : 1.0)
+                                            .shadow(color: .black.opacity(viewModel.draggedID == collection.id ? 0.1 : 0), radius: 10, y: 5)
+                                            .offset(y: viewModel.draggedID == collection.id ? viewModel.dragOffset : 0)
+                                            .zIndex(viewModel.draggedID == collection.id ? 10 : 0)
+                                            .gesture(
+                                                DragGesture(minimumDistance: 0)
+                                                    .onChanged { value in
+                                                        if viewModel.draggedID == nil {
+                                                            viewModel.draggedID = collection.id
+                                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                                        }
+                                                        
+                                                        let cardHeight: CGFloat = 72 + 12
+                                                        let translation = value.translation.height
+                                                        
+                                                        // Determine the target slot relative to the START of the drag
+                                                        // We don't adjust dragOffset during the drag anymore to keep it absolute
+                                                        let moveCount = Int((translation / cardHeight).rounded())
+                                                        
+                                                        // Magnetic Snap: 
+                                                        // The card snaps to the slot center, but has a slight "tug" (20%) from the finger
+                                                        let targetSnapOffset = CGFloat(moveCount) * cardHeight
+                                                        let residual = translation - targetSnapOffset
+                                                        let magneticOffset = targetSnapOffset + (residual * 0.2)
+                                                        
+                                                        withAnimation(.interactiveSpring(response: 0.2, dampingFraction: 0.8)) {
+                                                            viewModel.dragOffset = magneticOffset
+                                                        }
+                                                        
+                                                        // Perform the actual array move
+                                                        if moveCount != 0 {
+                                                            if let from = viewModel.userCollections.firstIndex(where: { $0.id == collection.id }) {
+                                                                let currentPosInArray = from
+                                                                // We need to know where it SHOULD be based on moveCount from its original position
+                                                                // This custom logic handles the "snapping" array move
+                                                                // For simplicity, we just use the existing move but without adjusting dragOffset
+                                                                // because our new magneticOffset calculation handles absolute translation
+                                                                let to = from + moveCount
+                                                                if to >= 0 && to < viewModel.userCollections.count && to != from {
+                                                                    withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+                                                                        viewModel.moveUserCollection(from: IndexSet(integer: from), to: to > from ? to + 1 : to)
+                                                                    }
+                                                                    UISelectionFeedbackGenerator().selectionChanged()
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    .onEnded { _ in
+                                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                                            viewModel.dragOffset = 0
+                                                            viewModel.draggedID = nil
+                                                        }
+                                                    }
+                                            )
+                                        } else {
+                                            NavigationLink(value: collection) {
+                                                CollectionCard(
+                                                    collection: collection,
+                                                    isEditing: false
+                                                )
+                                            }
                                         }
-                                        .disabled(viewModel.isEditing)
                                     }
                                 }
                                 .padding(.horizontal)
