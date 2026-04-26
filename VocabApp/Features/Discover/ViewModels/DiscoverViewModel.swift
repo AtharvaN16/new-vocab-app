@@ -37,7 +37,25 @@ final class DiscoverViewModel {
         self.wordRepository = wordRepository
         self.collectionRepository = collectionRepository
         
-        Task { await loadCollections() }
+        Task { 
+            await ensureSystemCollections()
+            await loadCollections() 
+        }
+    }
+
+    @MainActor
+    private func ensureSystemCollections() async {
+        do {
+            let existing = try await collectionRepository.fetchCollections()
+            if !existing.contains(where: { $0.name == "Favorites" }) {
+                _ = try await collectionRepository.createCollection(name: "Favorites", colorHex: "#FF2D55")
+            }
+            if !existing.contains(where: { $0.name == "Bookmarked" }) {
+                _ = try await collectionRepository.createCollection(name: "Bookmarked", colorHex: "#F59E0B")
+            }
+        } catch {
+            print("Error ensuring system collections: \(error)")
+        }
     }
 
     @MainActor

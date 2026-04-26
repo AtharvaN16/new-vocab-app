@@ -28,6 +28,7 @@ struct WordExpandedContentView: View {
                         text: word.word.capitalized,
                         size: 32
                     )
+                    .padding(.leading, -8)
                     .rotation3DEffect(
                         .degrees(tiltX * expandedMaxDeg * tiltMultiplier),
                         axis: (x: 1, y: 0, z: 0), anchor: .bottom, perspective: 0.5

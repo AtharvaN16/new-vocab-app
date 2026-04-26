@@ -215,6 +215,7 @@ struct WordResultCard: View {
                     text: word.word.capitalized,
                     size: 32
                 )
+                .padding(.leading, -8)
                 .padding(.bottom, 4)
 
                 VStack(alignment: .leading, spacing: 12) {

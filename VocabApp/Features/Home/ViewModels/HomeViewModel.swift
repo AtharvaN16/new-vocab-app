@@ -21,7 +21,25 @@ final class HomeViewModel {
     init(wordRepository: WordRepository, collectionRepository: CollectionRepository) {
         self.wordRepository = wordRepository
         self.collectionRepository = collectionRepository
-        Task { await loadData() }
+        Task { 
+            await ensureSystemCollections()
+            await loadData() 
+        }
+    }
+
+    @MainActor
+    private func ensureSystemCollections() async {
+        do {
+            let existing = try await collectionRepository.fetchCollections()
+            if !existing.contains(where: { $0.name == "Favorites" }) {
+                _ = try await collectionRepository.createCollection(name: "Favorites", colorHex: "#FF2D55")
+            }
+            if !existing.contains(where: { $0.name == "Bookmarked" }) {
+                _ = try await collectionRepository.createCollection(name: "Bookmarked", colorHex: "#F59E0B")
+            }
+        } catch {
+            print("Error ensuring system collections: \(error)")
+        }
     }
 
     var currentWord: WordEntity? {
@@ -44,9 +62,6 @@ final class HomeViewModel {
 
     @MainActor
     func loadData() async {
-        // Prevent redundant loading if we already have words
-        guard words.isEmpty || isLoading else { return }
-        
         isLoading = true
         do {
             let allWords = try await wordRepository.fetchWords()
@@ -55,6 +70,11 @@ final class HomeViewModel {
             // Get all word IDs that are in at least one collection
             let savedWordIds = Set(collections.flatMap { $0.wordIds })
             
+            // We want to show words that are saved (in any collection)
+            // or if the user is in "all words" mode, we might show everything.
+            // For now, stick to the rule: if it's in a collection, it shows on Home.
+            // If a word is NOT in a collection but somehow in the DB (like 'obsequious'), 
+            // it will be filtered out by this logic.
             words = allWords.filter { savedWordIds.contains($0.id) }
                 .sorted { $0.createdAt < $1.createdAt }
             
