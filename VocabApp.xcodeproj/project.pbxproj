@@ -55,6 +55,8 @@
 		A0F13134B02234C924A37472 /* SwiftDataWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA770CA411C79DABA01B58 /* SwiftDataWordRepository.swift */; };
 		A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91386D46998F20997D8FD8DF /* Normalizable.swift */; };
 		B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9591CFD05018990729AF7A9 /* WordEntityTests.swift */; };
+		0DD9841B673744A384E8A401 /* WordQualityCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6804AE075819473AAC3A6347 /* WordQualityCheckerTests.swift */; };
+		02F4B53215884D8EBBA07868 /* WordQualityChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB693F9D0D6459BA46D13C9 /* WordQualityChecker.swift */; };
 		B406F080496EB9B22B2CCC5D /* SRSCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55905465A789DD49F288BC /* SRSCardEntity.swift */; };
 		B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */; };
 		BB21652D2BDDBB244CF4E8D7 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE18EB0EA140731224E8A /* KeychainHelper.swift */; };
@@ -87,8 +89,9 @@
 
 /* Begin PBXFileReference section */
 		032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWordsUseCase.swift; sourceTree = "<group>"; };
+		EDB693F9D0D6459BA46D13C9 /* WordQualityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityChecker.swift; sourceTree = "<group>"; };
 		0702460F543049310EA2B0DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
 		0C55905465A789DD49F288BC /* SRSCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardEntity.swift; sourceTree = "<group>"; };
 		0E42921C86DA611DED528057 /* WordEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntity.swift; sourceTree = "<group>"; };
@@ -142,9 +145,10 @@
 		B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRepository.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
-		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
 		D9591CFD05018990729AF7A9 /* WordEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntityTests.swift; sourceTree = "<group>"; };
+		6804AE075819473AAC3A6347 /* WordQualityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityCheckerTests.swift; sourceTree = "<group>"; };
 		E073148BC34A74F1F32448BC /* curated_words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = curated_words.json; sourceTree = "<group>"; };
 		E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionViewModel.swift; sourceTree = "<group>"; };
 		E33455C7C6507068C53D27AF /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				D9591CFD05018990729AF7A9 /* WordEntityTests.swift */,
+				6804AE075819473AAC3A6347 /* WordQualityCheckerTests.swift */,
 			);
 			path = VocabAppTests;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */,
+				EDB693F9D0D6459BA46D13C9 /* WordQualityChecker.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -592,8 +598,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 32D07C71FA1FDDE5A2C6458C /* Build configuration list for PBXProject "VocabApp" */;
 			developmentRegion = en;
@@ -695,6 +699,7 @@
 				C98D983930735722CD150569 /* WordSD.swift in Sources */,
 				501CF429ED777BDAE74CACFB /* WordnikDTO.swift in Sources */,
 				15B4786A540D2B13F34D2445 /* WordnikRequest.swift in Sources */,
+				02F4B53215884D8EBBA07868 /* WordQualityChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +708,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */,
+				0DD9841B673744A384E8A401 /* WordQualityCheckerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +788,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -824,6 +831,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
