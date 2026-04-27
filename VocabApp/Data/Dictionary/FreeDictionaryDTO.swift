@@ -86,13 +86,17 @@ extension FreeDictionaryResponse {
             examples: allExamples,
             synonyms: [String](allSynonyms),
             antonyms: [String](allAntonyms),
-            etymology: nil, // Free Dictionary doesn't provide etymology in a reliable field
+            etymology: nil,
             otherForms: [],
             aiMnemonic: nil,
             userNotes: nil,
             sources: ["Free Dictionary API"],
             createdAt: Date(),
-            updatedAt: Date()
+            updatedAt: Date(),
+            audioURL: entry.phonetics.first(where: { audio in
+                guard let a = audio.audio else { return false }
+                return !a.isEmpty
+            })?.audio
         )
     }
 }
