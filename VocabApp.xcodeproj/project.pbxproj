@@ -801,6 +801,7 @@
 		};
 		C2C8352E863CD3421E1C85D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7E6696FC94ECA086480BEAA /* Shared.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -908,6 +909,7 @@
 		};
 		EF6E769CBF529F3056B54F7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7E6696FC94ECA086480BEAA /* Shared.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;

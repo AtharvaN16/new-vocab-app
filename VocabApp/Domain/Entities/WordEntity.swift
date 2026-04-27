@@ -49,14 +49,24 @@ struct WordEntity: Identifiable, Codable, Equatable {
         contextualNote: String? = nil,
         qualityScore: Int = 0
     ) {
-        self.id = id; self.word = word; self.phonetic = phonetic
-        self.definitions = definitions; self.examples = examples
-        self.synonyms = synonyms; self.antonyms = antonyms
-        self.etymology = etymology; self.otherForms = otherForms
-        self.aiMnemonic = aiMnemonic; self.userNotes = userNotes
-        self.sources = sources; self.createdAt = createdAt; self.updatedAt = updatedAt
-        self.audioURL = audioURL; self.syllables = syllables
-        self.register = register; self.contextualNote = contextualNote
+        self.id = id
+        self.word = word
+        self.phonetic = phonetic
+        self.definitions = definitions
+        self.examples = examples
+        self.synonyms = synonyms
+        self.antonyms = antonyms
+        self.etymology = etymology
+        self.otherForms = otherForms
+        self.aiMnemonic = aiMnemonic
+        self.userNotes = userNotes
+        self.sources = sources
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.audioURL = audioURL
+        self.syllables = syllables
+        self.register = register
+        self.contextualNote = contextualNote
         self.qualityScore = qualityScore
     }
 

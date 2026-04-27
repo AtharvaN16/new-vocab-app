@@ -39,6 +39,9 @@ targets:
   VocabAppTests:
     type: bundle.unit-test
     platform: iOS
+    configFiles:
+      Debug: Config/Shared.xcconfig
+      Release: Config/Shared.xcconfig
     sources:
       - path: VocabAppTests
         excludes:
