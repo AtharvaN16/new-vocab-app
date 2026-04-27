@@ -10,7 +10,6 @@
 		0451AEE4D8A169E66B0644DC /* CollectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9309187A2E059A5AB96E2A /* CollectionCard.swift */; };
 		04C1DA53D6CCC63C203229B8 /* AIServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9AE516BE00230D989CF3C /* AIServiceCoordinator.swift */; };
 		0558D4095842308761CE8FD2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33CCA4B8F340BD560A8A01 /* HomeView.swift */; };
-		05F8AD55AA3126B81D91C3E4 /* ToastBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA3D5AB64B218FFE9A7C102 /* ToastBanner.swift */; };
 		07BDC3733C7243B30B443436 /* SyncRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694104F9118C1FF4E70341 /* SyncRepository.swift */; };
 		088B37974F1AC38D08D152A2 /* SRSRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A168067B3ED820C36CF4C331 /* SRSRepository.swift */; };
 		0D2EA365ED321F04A89B8EE0 /* AddToCollectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A48A9FFFF0EFD80BCBE8E3 /* AddToCollectionSheet.swift */; };
@@ -38,6 +37,7 @@
 		5B2A02A781F0A9EEC9B0FE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E90DB580A5EF90D7D2A58DA /* ContentView.swift */; };
 		60562514D115045BE122A828 /* ReviewLogSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1CFBC4B3D10F89E3293A7 /* ReviewLogSD.swift */; };
 		661468C945FB165B14A8698D /* AIRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A07DCBEF8F7A7FD0C2016 /* AIRepository.swift */; };
+		687FAE164362C7C320285E40 /* curated_words.json in Resources */ = {isa = PBXBuildFile; fileRef = E073148BC34A74F1F32448BC /* curated_words.json */; };
 		6A2E687E9540328D5D831C9D /* CollectionSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */; };
 		6E9DFB655E475BDD36BF9701 /* DictionaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */; };
 		7781670981AEA8788B44E23B /* CollectionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D249472835004884763095 /* CollectionEntity.swift */; };
@@ -54,6 +54,7 @@
 		9EBED660AA7A0583A44EE355 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33455C7C6507068C53D27AF /* MotionManager.swift */; };
 		A0F13134B02234C924A37472 /* SwiftDataWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFA770CA411C79DABA01B58 /* SwiftDataWordRepository.swift */; };
 		A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91386D46998F20997D8FD8DF /* Normalizable.swift */; };
+		B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9591CFD05018990729AF7A9 /* WordEntityTests.swift */; };
 		B406F080496EB9B22B2CCC5D /* SRSCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55905465A789DD49F288BC /* SRSCardEntity.swift */; };
 		B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */; };
 		BB21652D2BDDBB244CF4E8D7 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE18EB0EA140731224E8A /* KeychainHelper.swift */; };
@@ -65,15 +66,29 @@
 		DB65649225C3F319A4182C3D /* DictionaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */; };
 		DBBD0C32671DC374FA052014 /* SupabaseSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E378C9201AC802D92AF089B /* SupabaseSyncService.swift */; };
 		DFFE3E1FB71D2013D0F2644D /* DynaPuff-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DF3E6DCD9752A7442BF08F0 /* DynaPuff-Medium.ttf */; };
+		E2C72FF4C59CEC7B9EF2B29D /* DailyWordsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */; };
 		E373BC4F3673246CF5407558 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E2BE2DE6FF84B888EC831 /* ProfileView.swift */; };
 		E3823EEB6729CA54E5FB5F00 /* CollectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D7FA15ED56C79FC190C4BC /* CollectionRepository.swift */; };
 		E8BF2B9F6E60504071387FA1 /* WiktionaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD8071FBB2D7D2B5163E2B6 /* WiktionaryRequest.swift */; };
 		EA11B2186E7DAF60D149A8D4 /* WordExpandedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37851B26BCEA598CA0507D6D /* WordExpandedContentView.swift */; };
+		FB7EDC5193CB1A796D18D583 /* ToastBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF13BFBE6D2659371420AA /* ToastBanner.swift */; };
 		FF914CAC91B71F8D057961AF /* CollectionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889590ACDE35F3F6B165B637 /* CollectionDetailView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B62C5E88FA3BD820EEEFD2BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79291EB669248C7B2B092AF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3DBDD1FFF61E584ECC697774;
+			remoteInfo = VocabApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWordsUseCase.swift; sourceTree = "<group>"; };
 		0702460F543049310EA2B0DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
 		0C55905465A789DD49F288BC /* SRSCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardEntity.swift; sourceTree = "<group>"; };
 		0E42921C86DA611DED528057 /* WordEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntity.swift; sourceTree = "<group>"; };
@@ -94,12 +109,12 @@
 		42D249472835004884763095 /* CollectionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionEntity.swift; sourceTree = "<group>"; };
 		46694104F9118C1FF4E70341 /* SyncRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRepository.swift; sourceTree = "<group>"; };
 		46D7FA15ED56C79FC190C4BC /* CollectionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionRepository.swift; sourceTree = "<group>"; };
+		4EBF13BFBE6D2659371420AA /* ToastBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastBanner.swift; sourceTree = "<group>"; };
 		4FD8071FBB2D7D2B5163E2B6 /* WiktionaryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiktionaryRequest.swift; sourceTree = "<group>"; };
 		56598A74A56B62A625F9813F /* VocabAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabAppApp.swift; sourceTree = "<group>"; };
 		59DA587D34DB3DCFA2DFDB01 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		5A124636BD16E72BE7BB2BFA /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		5D33CCA4B8F340BD560A8A01 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		6AA3D5AB64B218FFE9A7C102 /* ToastBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastBanner.swift; sourceTree = "<group>"; };
 		5E378C9201AC802D92AF089B /* SupabaseSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseSyncService.swift; sourceTree = "<group>"; };
 		636521DA7D4866B0D2D9BDF0 /* WordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailView.swift; sourceTree = "<group>"; };
 		651E0DB8770548217D09C61A /* WordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordRepository.swift; sourceTree = "<group>"; };
@@ -127,8 +142,10 @@
 		B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRepository.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
-		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
+		D9591CFD05018990729AF7A9 /* WordEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntityTests.swift; sourceTree = "<group>"; };
+		E073148BC34A74F1F32448BC /* curated_words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = curated_words.json; sourceTree = "<group>"; };
 		E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionViewModel.swift; sourceTree = "<group>"; };
 		E33455C7C6507068C53D27AF /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		ED929C2D855F6D341484BCE8 /* SRSCardSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardSD.swift; sourceTree = "<group>"; };
@@ -141,6 +158,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		002E4D1ECFDABFC027839685 /* VocabAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				D9591CFD05018990729AF7A9 /* WordEntityTests.swift */,
+			);
+			path = VocabAppTests;
+			sourceTree = "<group>";
+		};
 		035B11E24C49564B128AC955 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				5D33CCA4B8F340BD560A8A01 /* HomeView.swift */,
-				6AA3D5AB64B218FFE9A7C102 /* ToastBanner.swift */,
+				4EBF13BFBE6D2659371420AA /* ToastBanner.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -249,6 +274,7 @@
 			children = (
 				3857FAB37DFEE9E5592D3D29 /* Config */,
 				BA937C66CA68193F75E915B2 /* VocabApp */,
+				002E4D1ECFDABFC027839685 /* VocabAppTests */,
 				CFF59DDF90E53AE588D18A0C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -257,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				0702460F543049310EA2B0DB /* Assets.xcassets */,
+				E073148BC34A74F1F32448BC /* curated_words.json */,
 				721096F53AE4E794664F337D /* Theme.swift */,
 				81556B52C4930C867E86B1CC /* Fonts */,
 			);
@@ -325,6 +352,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		8ECA9A639F5BCD52096772B9 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
 		8FB7D40A330EC279875059DC /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,6 +410,7 @@
 				BEBC237A21D9FEE8C3F3EBC5 /* Entities */,
 				DA02A4D7EB3F72C2AC37C40B /* Repositories */,
 				2C1D950E6F418524C9C84B18 /* SRS */,
+				8ECA9A639F5BCD52096772B9 /* UseCases */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -454,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */,
+				08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -511,6 +548,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0F84AB70CE62A17D78E1A376 /* VocabAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D82D7B7596B74A541CD8A7C6 /* Build configuration list for PBXNativeTarget "VocabAppTests" */;
+			buildPhases = (
+				B0710E03368CADD1A10623E7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C453FDCBF8C0DEA7E68BCA90 /* PBXTargetDependency */,
+			);
+			name = VocabAppTests;
+			packageProductDependencies = (
+			);
+			productName = VocabAppTests;
+			productReference = 08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3DBDD1FFF61E584ECC697774 /* VocabApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A42D102D693F4CAFE20EAFA /* Build configuration list for PBXNativeTarget "VocabApp" */;
@@ -537,6 +592,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 32D07C71FA1FDDE5A2C6458C /* Build configuration list for PBXProject "VocabApp" */;
 			developmentRegion = en;
@@ -553,6 +610,7 @@
 			projectRoot = "";
 			targets = (
 				3DBDD1FFF61E584ECC697774 /* VocabApp */,
+				0F84AB70CE62A17D78E1A376 /* VocabAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -564,6 +622,7 @@
 			files = (
 				22A4FE3648C124E7774E1A4A /* Assets.xcassets in Resources */,
 				DFFE3E1FB71D2013D0F2644D /* DynaPuff-Medium.ttf in Resources */,
+				687FAE164362C7C320285E40 /* curated_words.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +647,7 @@
 				E3823EEB6729CA54E5FB5F00 /* CollectionRepository.swift in Sources */,
 				6A2E687E9540328D5D831C9D /* CollectionSD.swift in Sources */,
 				5B2A02A781F0A9EEC9B0FE5B /* ContentView.swift in Sources */,
+				E2C72FF4C59CEC7B9EF2B29D /* DailyWordsUseCase.swift in Sources */,
 				DB65649225C3F319A4182C3D /* DictionaryRepository.swift in Sources */,
 				6E9DFB655E475BDD36BF9701 /* DictionaryService.swift in Sources */,
 				3241A9FA20D643C1215571E1 /* DiscoverView.swift in Sources */,
@@ -597,7 +657,6 @@
 				7FB56E3B9B93CC1E8705D4EA /* FreeDictionaryRequest.swift in Sources */,
 				0558D4095842308761CE8FD2 /* HomeView.swift in Sources */,
 				C33C5AB6EF39778CC2C7331A /* HomeViewModel.swift in Sources */,
-				05F8AD55AA3126B81D91C3E4 /* ToastBanner.swift in Sources */,
 				BB21652D2BDDBB244CF4E8D7 /* KeychainHelper.swift in Sources */,
 				35AD8CF579FC9DCEC58D6410 /* LibraryView.swift in Sources */,
 				53D086A2ECB958DCF9B5FD75 /* LibraryViewModel.swift in Sources */,
@@ -623,6 +682,7 @@
 				A0F13134B02234C924A37472 /* SwiftDataWordRepository.swift in Sources */,
 				07BDC3733C7243B30B443436 /* SyncRepository.swift in Sources */,
 				20B8076BB0D77DE9775A35F1 /* Theme.swift in Sources */,
+				FB7EDC5193CB1A796D18D583 /* ToastBanner.swift in Sources */,
 				2C7AF28E8A087335B5B3FE26 /* VocabAppApp.swift in Sources */,
 				86DCC422ABFE2A8FC9C19D97 /* WiktionaryDTO.swift in Sources */,
 				E8BF2B9F6E60504071387FA1 /* WiktionaryRequest.swift in Sources */,
@@ -638,7 +698,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B0710E03368CADD1A10623E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C453FDCBF8C0DEA7E68BCA90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3DBDD1FFF61E584ECC697774 /* VocabApp */;
+			targetProxy = B62C5E88FA3BD820EEEFD2BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		19171F134D5C0BCDD200B7B4 /* Release */ = {
@@ -706,7 +782,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -724,13 +799,30 @@
 			};
 			name = Release;
 		};
+		C2C8352E863CD3421E1C85D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.atharvanayak.vocabapptests;
+				PRODUCT_NAME = VocabAppTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VocabApp.app/VocabApp";
+			};
+			name = Release;
+		};
 		C98B45F1FFD50961B84E67C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7E6696FC94ECA086480BEAA /* Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -814,6 +906,24 @@
 			};
 			name = Debug;
 		};
+		EF6E769CBF529F3056B54F7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.atharvanayak.vocabapptests;
+				PRODUCT_NAME = VocabAppTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VocabApp.app/VocabApp";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -831,6 +941,15 @@
 			buildConfigurations = (
 				C98B45F1FFD50961B84E67C6 /* Debug */,
 				AB7A9B14469AE82DC43C95E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D82D7B7596B74A541CD8A7C6 /* Build configuration list for PBXNativeTarget "VocabAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF6E769CBF529F3056B54F7B /* Debug */,
+				C2C8352E863CD3421E1C85D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
