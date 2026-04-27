@@ -38,6 +38,7 @@
 		57813D26BEC182E06805C6AC /* AddToCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0B13B74F04C03B27333A83 /* AddToCollectionViewModel.swift */; };
 		5B2A02A781F0A9EEC9B0FE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E90DB580A5EF90D7D2A58DA /* ContentView.swift */; };
 		60562514D115045BE122A828 /* ReviewLogSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1CFBC4B3D10F89E3293A7 /* ReviewLogSD.swift */; };
+		62EAFEC269FBF5AC46BD0616 /* MerriamWebsterDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9273C6936E0816668D779C23 /* MerriamWebsterDTO.swift */; };
 		661468C945FB165B14A8698D /* AIRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A07DCBEF8F7A7FD0C2016 /* AIRepository.swift */; };
 		687FAE164362C7C320285E40 /* curated_words.json in Resources */ = {isa = PBXBuildFile; fileRef = E073148BC34A74F1F32448BC /* curated_words.json */; };
 		6A2E687E9540328D5D831C9D /* CollectionSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */; };
@@ -60,6 +61,7 @@
 		A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91386D46998F20997D8FD8DF /* Normalizable.swift */; };
 		B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9591CFD05018990729AF7A9 /* WordEntityTests.swift */; };
 		B406F080496EB9B22B2CCC5D /* SRSCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C55905465A789DD49F288BC /* SRSCardEntity.swift */; };
+		B5A047CDE85DCE2611B36EED /* MerriamWebsterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451245FECD0D4B8232AB7DA6 /* MerriamWebsterRequest.swift */; };
 		B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */; };
 		BB21652D2BDDBB244CF4E8D7 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE18EB0EA140731224E8A /* KeychainHelper.swift */; };
 		C33C5AB6EF39778CC2C7331A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58D8B406FF34EFDC1E74368 /* HomeViewModel.swift */; };
@@ -79,6 +81,7 @@
 		EA11B2186E7DAF60D149A8D4 /* WordExpandedContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37851B26BCEA598CA0507D6D /* WordExpandedContentView.swift */; };
 		EE80C377C9B8786F4E5A9D60 /* WordnikRelatedWordsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E5E162257D74F1E5B547E4 /* WordnikRelatedWordsTests.swift */; };
 		FB7EDC5193CB1A796D18D583 /* ToastBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF13BFBE6D2659371420AA /* ToastBanner.swift */; };
+		FE2AFD8624D8A979AA95089B /* MerriamWebsterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */; };
 		FF914CAC91B71F8D057961AF /* CollectionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889590ACDE35F3F6B165B637 /* CollectionDetailView.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +119,7 @@
 		3AD98268E2BADC655968781D /* WiktionaryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiktionaryDTO.swift; sourceTree = "<group>"; };
 		3CE496B963EF2DB1BBF75DB2 /* WordnikRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordnikRequest.swift; sourceTree = "<group>"; };
 		42D249472835004884763095 /* CollectionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionEntity.swift; sourceTree = "<group>"; };
+		451245FECD0D4B8232AB7DA6 /* MerriamWebsterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterRequest.swift; sourceTree = "<group>"; };
 		46694104F9118C1FF4E70341 /* SyncRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRepository.swift; sourceTree = "<group>"; };
 		46D7FA15ED56C79FC190C4BC /* CollectionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionRepository.swift; sourceTree = "<group>"; };
 		4EBF13BFBE6D2659371420AA /* ToastBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastBanner.swift; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 		8AB1E2156D66D37E4B21D2EE /* SwiftDataCollectionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCollectionRepository.swift; sourceTree = "<group>"; };
 		91386D46998F20997D8FD8DF /* Normalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Normalizable.swift; sourceTree = "<group>"; };
 		91D9964AFDA26771374E07CD /* DatamuseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatamuseDTO.swift; sourceTree = "<group>"; };
+		9273C6936E0816668D779C23 /* MerriamWebsterDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterDTO.swift; sourceTree = "<group>"; };
 		973C77EDD82DA05ACCB4740A /* WordCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardView.swift; sourceTree = "<group>"; };
 		9D894DF55F773F0BD3C44593 /* WordnikDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordnikDTO.swift; sourceTree = "<group>"; };
 		9F91CCB35D781913568E8874 /* WordQualityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityChecker.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 		B7D9496CA3B2BF2F24D8719F /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		B7E6696FC94ECA086480BEAA /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRepository.swift; sourceTree = "<group>"; };
+		BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterTests.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
 		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +183,7 @@
 			children = (
 				324F01E51AD71A2EAE6DC020 /* DatamuseTests.swift */,
 				348599A9A0EBB2AF124D33A9 /* FreeDictionaryNormalizerTests.swift */,
+				BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */,
 				D9591CFD05018990729AF7A9 /* WordEntityTests.swift */,
 				83E5E162257D74F1E5B547E4 /* WordnikRelatedWordsTests.swift */,
 				D9731226E6ADA340E6EACA76 /* WordQualityCheckerTests.swift */,
@@ -327,6 +334,8 @@
 				0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */,
 				7B33F523D8AAC74E1F08ABC2 /* FreeDictionaryDTO.swift */,
 				FA4BF4343537DAE81E7B1E67 /* FreeDictionaryRequest.swift */,
+				9273C6936E0816668D779C23 /* MerriamWebsterDTO.swift */,
+				451245FECD0D4B8232AB7DA6 /* MerriamWebsterRequest.swift */,
 				91386D46998F20997D8FD8DF /* Normalizable.swift */,
 				3AD98268E2BADC655968781D /* WiktionaryDTO.swift */,
 				4FD8071FBB2D7D2B5163E2B6 /* WiktionaryRequest.swift */,
@@ -686,6 +695,8 @@
 				1008C30FF6B0346159D6C88F /* LoginView.swift in Sources */,
 				B983B643C6FE9BA90D55BC92 /* LoginViewModel.swift in Sources */,
 				9B558489EC21C84129562F42 /* MLXService.swift in Sources */,
+				62EAFEC269FBF5AC46BD0616 /* MerriamWebsterDTO.swift in Sources */,
+				B5A047CDE85DCE2611B36EED /* MerriamWebsterRequest.swift in Sources */,
 				9EBED660AA7A0583A44EE355 /* MotionManager.swift in Sources */,
 				A7C6B7A7DF4A08D2968DD7C8 /* Normalizable.swift in Sources */,
 				4E921D234C3C26B3538AC854 /* OpenRouterService.swift in Sources */,
@@ -728,6 +739,7 @@
 			files = (
 				2CB89E0A45F623C007AC27C2 /* DatamuseTests.swift in Sources */,
 				E87079E632837468CA602EBD /* FreeDictionaryNormalizerTests.swift in Sources */,
+				FE2AFD8624D8A979AA95089B /* MerriamWebsterTests.swift in Sources */,
 				B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */,
 				767FD90536C350D08A57CDD9 /* WordQualityCheckerTests.swift in Sources */,
 				EE80C377C9B8786F4E5A9D60 /* WordnikRelatedWordsTests.swift in Sources */,

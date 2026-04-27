@@ -36,14 +36,21 @@ final class AppEnvironment {
         self.authRepository = SupabaseAuthService()
 
         let wordnikKey = BuildSecrets.wordnikAPIKey
-        
+
         // BYOK Keys from Keychain
         let orKeyPath = "com.atharvanayak.vocabapp.openrouter_key"
+        let mwKeyPath = "com.atharvanayak.vocabapp.merriamwebster_key"
         let savedOrKey = (try? KeychainHelper.read(key: orKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
+        let savedMWKey = (try? KeychainHelper.read(key: mwKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
 
         // Dictionary Service
         let apiClient = APIClient()
-        self.dictionaryRepository = DictionaryService(apiClient: apiClient, wordRepository: wordRepo, wordnikApiKey: wordnikKey)
+        self.dictionaryRepository = DictionaryService(
+            apiClient: apiClient,
+            wordRepository: wordRepo,
+            wordnikApiKey: wordnikKey,
+            merriamWebsterApiKey: savedMWKey
+        )
 
         // AI Service
         self.aiRepository = AIServiceCoordinator(openRouterApiKey: savedOrKey)
@@ -60,6 +67,18 @@ final class AppEnvironment {
     @MainActor
     func updateAIKey(_ key: String) {
         self.aiRepository = AIServiceCoordinator(openRouterApiKey: key.isEmpty ? nil : key)
+    }
+
+    @MainActor
+    func updateMerriamWebsterKey(_ key: String) {
+        let keyPath = "com.atharvanayak.vocabapp.merriamwebster_key"
+        let data = key.isEmpty ? nil : key.data(using: .utf8)
+        if let data {
+            try? KeychainHelper.save(key: keyPath, data: data)
+        } else {
+            try? KeychainHelper.delete(key: keyPath)
+        }
+        (dictionaryRepository as? DictionaryService)?.updateMerriamWebsterKey(key.isEmpty ? nil : key)
     }
     @MainActor
     private func bootstrap(collectionRepo: CollectionRepository) async {
