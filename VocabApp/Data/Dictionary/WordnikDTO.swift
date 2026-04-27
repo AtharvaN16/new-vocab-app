@@ -16,10 +16,10 @@ struct WordnikExampleResponse: Decodable {
 
 extension Array where Element == WordnikDefinition {
     func normalize() -> WordEntity {
-        let definitions = self.map { 
+        let definitions = self.map {
             WordEntity.Definition(text: $0.text, partOfSpeech: $0.partOfSpeech, source: "Wordnik (\($0.sourceDictionary))")
         }
-        
+
         return WordEntity(
             id: UUID(),
             word: "",
@@ -36,5 +36,19 @@ extension Array where Element == WordnikDefinition {
             createdAt: Date(),
             updatedAt: Date()
         )
+    }
+}
+
+struct WordnikRelationship: Decodable {
+    let relationshipType: String
+    let words: [String]
+}
+
+extension Array where Element == WordnikRelationship {
+    func synonyms() -> [String] {
+        first { $0.relationshipType == "synonym" }?.words ?? []
+    }
+    func antonyms() -> [String] {
+        first { $0.relationshipType == "antonym" }?.words ?? []
     }
 }
