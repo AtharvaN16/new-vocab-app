@@ -10,47 +10,32 @@ final class HomeViewModel {
     var isLoading: Bool = false
     var showAddToCollection: Bool = false
     var showSearch: Bool = false
-    
+    var lastActionWasLoop: Bool = false
+
     // Toast state
     var showToast: Bool = false
     var toastMessage: String = ""
 
-    private let wordRepository: WordRepository
     let collectionRepository: CollectionRepository
+    private let dictionaryRepository: DictionaryRepository
+    private let dailyWordsUseCase = DailyWordsUseCase()
 
-    init(wordRepository: WordRepository, collectionRepository: CollectionRepository) {
-        self.wordRepository = wordRepository
+    init(collectionRepository: CollectionRepository, dictionaryRepository: DictionaryRepository) {
         self.collectionRepository = collectionRepository
-        Task { 
-            await ensureSystemCollections()
-            await loadData() 
-        }
-    }
-
-    @MainActor
-    private func ensureSystemCollections() async {
-        do {
-            let existing = try await collectionRepository.fetchCollections()
-            if !existing.contains(where: { $0.name == "Favorites" }) {
-                _ = try await collectionRepository.createCollection(name: "Favorites", colorHex: "#FF2D55")
-            }
-            if !existing.contains(where: { $0.name == "Bookmarked" }) {
-                _ = try await collectionRepository.createCollection(name: "Bookmarked", colorHex: "#F59E0B")
-            }
-        } catch {
-            print("Error ensuring system collections: \(error)")
-        }
+        self.dictionaryRepository = dictionaryRepository
+        Task { await loadData() }
     }
 
     var currentWord: WordEntity? {
-        guard !words.isEmpty, currentIndex < words.count else { return nil }
-        return words[currentIndex]
+        guard !words.isEmpty else { return nil }
+        let index = currentIndex % words.count
+        return words[index >= 0 ? index : index + words.count]
     }
 
     private var favoritesCollection: CollectionEntity? {
         collections.first { $0.name == "Favorites" }
     }
-    
+
     private var bookmarkedCollection: CollectionEntity? {
         collections.first { $0.name == "Bookmarked" }
     }
@@ -60,47 +45,61 @@ final class HomeViewModel {
         return fav.wordIds.contains(word.id)
     }
 
+    var isCurrentWordBookmarked: Bool {
+        guard let word = currentWord, let bm = bookmarkedCollection else { return false }
+        return bm.wordIds.contains(word.id)
+    }
+
     @MainActor
     func loadData() async {
-        isLoading = true
-        do {
-            let allWords = try await wordRepository.fetchWords()
-            collections = try await collectionRepository.fetchCollections()
-            
-            // Get all word IDs that are in at least one collection
-            let savedWordIds = Set(collections.flatMap { $0.wordIds })
-            
-            // We want to show words that are saved (in any collection)
-            // or if the user is in "all words" mode, we might show everything.
-            // For now, stick to the rule: if it's in a collection, it shows on Home.
-            // If a word is NOT in a collection but somehow in the DB (like 'obsequious'), 
-            // it will be filtered out by this logic.
-            words = allWords.filter { savedWordIds.contains($0.id) }
-                .sorted { $0.createdAt < $1.createdAt }
-            
-            clampIndex()
-        } catch {
-            print("HomeViewModel load error: \(error)")
+        // On re-appear, just refresh collection state so bookmark/fav indicators stay accurate
+        guard words.isEmpty else {
+            await refreshCollections()
+            return
         }
+        isLoading = true
+        let wordStrings = dailyWordsUseCase.wordsForToday()
+        collections = (try? await collectionRepository.fetchCollections()) ?? []
+
+        var loaded: [WordEntity] = []
+        await withTaskGroup(of: WordEntity?.self) { group in
+            for wordString in wordStrings {
+                group.addTask { [dictionaryRepository] in
+                    try? await dictionaryRepository.lookup(word: wordString)
+                }
+            }
+            for await result in group {
+                if let entity = result { loaded.append(entity) }
+            }
+        }
+        words = loaded
         isLoading = false
     }
 
-    private func clampIndex() {
-        if words.isEmpty {
-            currentIndex = 0
-        } else if currentIndex >= words.count {
-            currentIndex = words.count - 1
-        }
+    @MainActor
+    func refreshCollections() async {
+        collections = (try? await collectionRepository.fetchCollections()) ?? []
     }
 
     func navigateNext() {
         guard !words.isEmpty else { return }
-        currentIndex = (currentIndex + 1) % words.count
+        if currentIndex >= words.count - 1 {
+            currentIndex = 0
+            lastActionWasLoop = true
+        } else {
+            currentIndex += 1
+            lastActionWasLoop = false
+        }
     }
 
     func navigatePrevious() {
         guard !words.isEmpty else { return }
-        currentIndex = (currentIndex - 1 + words.count) % words.count
+        if currentIndex <= 0 {
+            currentIndex = words.count - 1
+        } else {
+            currentIndex -= 1
+        }
+        lastActionWasLoop = false
     }
 
     @MainActor
@@ -125,14 +124,13 @@ final class HomeViewModel {
             print("Remove from favorites error: \(error)")
         }
     }
-    
+
     @MainActor
     func saveToDefaultCollection() async {
         guard let word = currentWord else { return }
-        
-        // Find or create "Bookmarked" collection
+
         var targetCollection = bookmarkedCollection
-        
+
         if targetCollection == nil {
             do {
                 targetCollection = try await collectionRepository.createCollection(name: "Bookmarked", colorHex: "#F59E0B")
@@ -140,24 +138,22 @@ final class HomeViewModel {
                 print("Error creating Bookmarked collection: \(error)")
             }
         }
-        
+
         guard let collection = targetCollection else { return }
-        
+
         do {
             if !collection.wordIds.contains(word.id) {
                 try await collectionRepository.addWordToCollection(wordId: word.id, collectionId: collection.id)
                 collections = try await collectionRepository.fetchCollections()
             }
-            
+
             toastMessage = "Saved to Bookmark"
             withAnimation(.spring()) {
                 showToast = true
             }
-            
-            // Auto hide after 3 seconds
+
             try? await Task.sleep(nanoseconds: 3_000_000_000)
             withAnimation(.spring()) {
-                // Check if it's still the same message to avoid hiding a newer toast
                 if toastMessage == "Saved to Bookmark" {
                     showToast = false
                 }
