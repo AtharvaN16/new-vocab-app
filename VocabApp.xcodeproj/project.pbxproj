@@ -21,6 +21,7 @@
 		15C77DF78273E914A616C0B0 /* SupabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35E219E606FD643116257C0 /* SupabaseClient.swift */; };
 		18000234F443E0836D88C944 /* PracticeSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */; };
 		1AAB93BF89110803687876B7 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D9496CA3B2BF2F24D8719F /* AuthRepository.swift */; };
+		1D90274AA71ADEC4149D6CDD /* ReviewDashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F63247F3DCA960366AC4E02 /* ReviewDashboardViewModel.swift */; };
 		2093FFA58B216ACA9016A878 /* DatamuseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D9964AFDA26771374E07CD /* DatamuseDTO.swift */; };
 		20B8076BB0D77DE9775A35F1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721096F53AE4E794664F337D /* Theme.swift */; };
 		22A4FE3648C124E7774E1A4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0702460F543049310EA2B0DB /* Assets.xcassets */; };
@@ -101,7 +102,7 @@
 /* Begin PBXFileReference section */
 		032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWordsUseCase.swift; sourceTree = "<group>"; };
 		0702460F543049310EA2B0DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
 		0C55905465A789DD49F288BC /* SRSCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardEntity.swift; sourceTree = "<group>"; };
 		0E42921C86DA611DED528057 /* WordEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntity.swift; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		157A07DCBEF8F7A7FD0C2016 /* AIRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIRepository.swift; sourceTree = "<group>"; };
 		16169F3F4DDF80567AAFEE3D /* PracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionView.swift; sourceTree = "<group>"; };
 		18BEAEF47D19DFB17499DA69 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		1F63247F3DCA960366AC4E02 /* ReviewDashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDashboardViewModel.swift; sourceTree = "<group>"; };
 		1FA1CFBC4B3D10F89E3293A7 /* ReviewLogSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewLogSD.swift; sourceTree = "<group>"; };
 		273DE18EB0EA140731224E8A /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		2E90DB580A5EF90D7D2A58DA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -166,7 +168,7 @@
 		BE70791CD84CC8EF3A47D084 /* SRSEnrollmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSEnrollmentTests.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
-		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
 		D9591CFD05018990729AF7A9 /* WordEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntityTests.swift; sourceTree = "<group>"; };
 		D9731226E6ADA340E6EACA76 /* WordQualityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityCheckerTests.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */,
+				1F63247F3DCA960366AC4E02 /* ReviewDashboardViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -631,8 +634,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 32D07C71FA1FDDE5A2C6458C /* Build configuration list for PBXProject "VocabApp" */;
 			developmentRegion = en;
@@ -713,6 +714,7 @@
 				18000234F443E0836D88C944 /* PracticeSessionViewModel.swift in Sources */,
 				E373BC4F3673246CF5407558 /* ProfileView.swift in Sources */,
 				7EE1C42C4367771618A25649 /* ProfileViewModel.swift in Sources */,
+				1D90274AA71ADEC4149D6CDD /* ReviewDashboardViewModel.swift in Sources */,
 				60562514D115045BE122A828 /* ReviewLogSD.swift in Sources */,
 				B406F080496EB9B22B2CCC5D /* SRSCardEntity.swift in Sources */,
 				92E3909ED54EDE453012B5BD /* SRSCardSD.swift in Sources */,
@@ -834,6 +836,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";
@@ -878,6 +881,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";
