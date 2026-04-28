@@ -38,6 +38,7 @@
 		53D086A2ECB958DCF9B5FD75 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A124636BD16E72BE7BB2BFA /* LibraryViewModel.swift */; };
 		57813D26BEC182E06805C6AC /* AddToCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0B13B74F04C03B27333A83 /* AddToCollectionViewModel.swift */; };
 		5B2A02A781F0A9EEC9B0FE5B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E90DB580A5EF90D7D2A58DA /* ContentView.swift */; };
+		5FA89B9F482FBED4AEE0C4BD /* SRSEnrollmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE70791CD84CC8EF3A47D084 /* SRSEnrollmentTests.swift */; };
 		60562514D115045BE122A828 /* ReviewLogSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA1CFBC4B3D10F89E3293A7 /* ReviewLogSD.swift */; };
 		62EAFEC269FBF5AC46BD0616 /* MerriamWebsterDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9273C6936E0816668D779C23 /* MerriamWebsterDTO.swift */; };
 		661468C945FB165B14A8698D /* AIRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A07DCBEF8F7A7FD0C2016 /* AIRepository.swift */; };
@@ -100,7 +101,7 @@
 /* Begin PBXFileReference section */
 		032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWordsUseCase.swift; sourceTree = "<group>"; };
 		0702460F543049310EA2B0DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
 		0C55905465A789DD49F288BC /* SRSCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardEntity.swift; sourceTree = "<group>"; };
 		0E42921C86DA611DED528057 /* WordEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntity.swift; sourceTree = "<group>"; };
@@ -162,9 +163,10 @@
 		B7E6696FC94ECA086480BEAA /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		B9FB316C75806CD320EFFE50 /* DictionaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryRepository.swift; sourceTree = "<group>"; };
 		BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterTests.swift; sourceTree = "<group>"; };
+		BE70791CD84CC8EF3A47D084 /* SRSEnrollmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSEnrollmentTests.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
-		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
 		D9591CFD05018990729AF7A9 /* WordEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntityTests.swift; sourceTree = "<group>"; };
 		D9731226E6ADA340E6EACA76 /* WordQualityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityCheckerTests.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				324F01E51AD71A2EAE6DC020 /* DatamuseTests.swift */,
 				348599A9A0EBB2AF124D33A9 /* FreeDictionaryNormalizerTests.swift */,
 				BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */,
+				BE70791CD84CC8EF3A47D084 /* SRSEnrollmentTests.swift */,
 				9F3EFF59EEB15201B41FDE45 /* WordAudioPlayerTests.swift */,
 				D9591CFD05018990729AF7A9 /* WordEntityTests.swift */,
 				83E5E162257D74F1E5B547E4 /* WordnikRelatedWordsTests.swift */,
@@ -628,6 +631,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 32D07C71FA1FDDE5A2C6458C /* Build configuration list for PBXProject "VocabApp" */;
 			developmentRegion = en;
@@ -745,6 +750,7 @@
 				2CB89E0A45F623C007AC27C2 /* DatamuseTests.swift in Sources */,
 				E87079E632837468CA602EBD /* FreeDictionaryNormalizerTests.swift in Sources */,
 				FE2AFD8624D8A979AA95089B /* MerriamWebsterTests.swift in Sources */,
+				5FA89B9F482FBED4AEE0C4BD /* SRSEnrollmentTests.swift in Sources */,
 				39026579000CE420791A9BD9 /* WordAudioPlayerTests.swift in Sources */,
 				B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */,
 				767FD90536C350D08A57CDD9 /* WordQualityCheckerTests.swift in Sources */,
@@ -828,7 +834,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";
@@ -873,7 +878,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";

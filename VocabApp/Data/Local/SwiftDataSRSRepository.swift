@@ -75,6 +75,32 @@ final class SwiftDataSRSRepository: SRSRepository {
     }
 
     @MainActor
+    func enrollWords(_ wordIds: [UUID]) async throws {
+        for wordId in wordIds {
+            let id = wordId
+            let descriptor = FetchDescriptor<SRSCardSD>(predicate: #Predicate { $0.wordId == id })
+            let existing = try modelContext.fetch(descriptor)
+            guard existing.isEmpty else { continue }
+            let card = SRSCardEntity(
+                id: UUID(),
+                wordId: wordId,
+                due: Date(),
+                stability: 0,
+                difficulty: 0,
+                elapsedDays: 0,
+                scheduledDays: 0,
+                reps: 0,
+                lapses: 0,
+                state: .new,
+                lastReview: nil,
+                updatedAt: Date()
+            )
+            modelContext.insert(SRSCardSD(from: card))
+        }
+        try modelContext.save()
+    }
+
+    @MainActor
     func fetchStats() async throws -> SRSStats {
         let descriptor = FetchDescriptor<SRSCardSD>()
         let allCards = try modelContext.fetch(descriptor)

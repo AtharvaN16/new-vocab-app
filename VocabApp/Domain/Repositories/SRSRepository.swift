@@ -8,6 +8,7 @@ protocol SRSRepository {
     func logReview(cardId: UUID, rating: Int, state: String) async throws
     func fetchStats() async throws -> SRSStats
     func fetchReviewCount(since date: Date) async throws -> Int
+    func enrollWords(_ wordIds: [UUID]) async throws
 }
 
 struct SRSStats {
