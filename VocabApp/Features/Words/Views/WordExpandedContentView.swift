@@ -40,14 +40,6 @@ struct WordExpandedContentView: View {
                     .shadow(color: .black.opacity(0.18), radius: 14, x: 0, y: 8)
                     .padding(.bottom, 6)
 
-                    if let pos = word.definitions.first?.partOfSpeech, !pos.isEmpty {
-                        Text(pos)
-                            .font(.system(size: 16))
-                            .tracking(-0.6)
-                            .foregroundColor(Theme.Colors.textSecondary)
-                            .padding(.bottom, 24)
-                    }
-
                     if !word.definitions.isEmpty {
                         expandedSection("DEFINITIONS") {
                             ForEach(Array(word.definitions.prefix(5).enumerated()), id: \.offset) { i, def in
