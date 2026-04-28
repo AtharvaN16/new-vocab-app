@@ -1,6 +1,7 @@
 import Foundation
 
 @Observable
+@MainActor
 final class ReviewDashboardViewModel {
     var dueCount: Int = 0
     var newCount: Int = 0
@@ -15,7 +16,6 @@ final class ReviewDashboardViewModel {
         Task { await loadStats() }
     }
 
-    @MainActor
     func loadStats() async {
         isLoading = true
         defer { isLoading = false }
