@@ -21,22 +21,31 @@ struct DiscoverView: View {
         NavigationStack {
             ZStack {
                 Theme.Colors.background.ignoresSafeArea()
+                // Dot matrix is in a fixed background layer
+                DotMatrixBackground()
 
                 VStack(alignment: .leading, spacing: 0) {
                     if let viewModel = viewModel {
                         // Large Title Search Section
                         VStack(alignment: .leading, spacing: 12) {
-                            TextField("Search", text: Bindable(viewModel).searchText)
-                                .font(.system(size: 44, weight: .black, design: .rounded))
-                                .foregroundStyle(Theme.Colors.textPrimary.opacity(viewModel.searchResult == nil ? 0.6 : 1.0))
-                                .focused($isSearchFocused)
-                                .autocorrectionDisabled()
-                                .textInputAutocapitalization(.never)
-                                .submitLabel(.search)
-                                .onSubmit {
-                                    viewModel.performSearch()
+                            ZStack(alignment: .leading) {
+                                if viewModel.searchText.isEmpty {
+                                    Text("Search")
+                                        .font(.system(size: 44, weight: .black, design: .rounded))
+                                        .foregroundStyle(Theme.Colors.textSecondary)
                                 }
-                                .animation(Theme.Animation.spring, value: viewModel.searchResult == nil)
+                                
+                                TextField("", text: Bindable(viewModel).searchText)
+                                    .font(.system(size: 44, weight: .black, design: .rounded))
+                                    .foregroundStyle(Theme.Colors.textPrimary)
+                                    .focused($isSearchFocused)
+                                    .autocorrectionDisabled()
+                                    .textInputAutocapitalization(.never)
+                                    .submitLabel(.search)
+                                    .onSubmit {
+                                        viewModel.performSearch()
+                                    }
+                            }
                             
                             if viewModel.isLoading {
                                 AnimatingSearchingView()
@@ -44,7 +53,7 @@ struct DiscoverView: View {
                             }
                         }
                         .padding(.horizontal, 24)
-                        .padding(.top, 60) // Extra padding for the title feel
+                        .padding(.top, 20) // Moved higher
                         .padding(.bottom, 20)
 
                         if let error = viewModel.errorMessage {
@@ -143,8 +152,11 @@ struct DiscoverView: View {
 
     private func handleFocusTrigger() {
         if appEnvironment?.shouldFocusSearch == true {
-            isSearchFocused = true
             appEnvironment?.shouldFocusSearch = false
+            // Slight delay ensures the tab transition is complete and view is in window hierarchy
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isSearchFocused = true
+            }
         }
     }
 }

@@ -9,8 +9,7 @@ This file governs how Gemini CLI behaves when working on this project.
 ## Project Overview
 
 Native iOS vocabulary learning app built with SwiftUI + SwiftData + Supabase.  
-See `PRD.md` for full product specification, reference app path, and stack rationale.  
-Old app reference: `/Users/atharvanayak/Desktop/VocabApp` (React Native)
+See `PRD.md` for full product specification.
 
 ---
 
@@ -24,7 +23,16 @@ npx skills add https://github.com/twostraws/swiftui-agent-skill
 
 # 79 Swift/iOS skills covering SwiftUI, SwiftData, StoreKit, on-device LLM, networking
 npx skills add https://github.com/dpearson2699/swift-ios-skills
+
+# Matt Pocock — planning, TDD, domain language, interfaces, architecture (optional CLI install)
+npx skills@latest add mattpocock/skills/grill-me
+npx skills@latest add mattpocock/skills/ubiquitous-language
+npx skills@latest add mattpocock/skills/tdd
+npx skills@latest add mattpocock/skills/design-an-interface
+npx skills@latest add mattpocock/skills/improve-codebase-architecture
 ```
+
+**Matt Pocock skills (vendored):** A snapshot of [github.com/mattpocock/skills](https://github.com/mattpocock/skills) lives in `vendor/mattpocock-skills/`. Prefer reading `vendor/mattpocock-skills/<skill-name>/SKILL.md` when following the workflows below; see that folder’s `README.md` for the full skill list (`to-prd`, `triage-issue`, `request-refactor-plan`, etc.).
 
 Most relevant skill categories for this project:
 - **SwiftUI** — animations, gestures, navigation, layouts
@@ -108,6 +116,19 @@ Transform vague requests into measurable outcomes with verification steps. Inste
 
 ---
 
+## Engineering Standards
+
+For each standard, the matching procedure (questions, loops, file conventions) is in **`vendor/mattpocock-skills/<skill>/SKILL.md`**.
+
+- **Shared Understanding ('Grill Me' Pattern):** Prioritize clarity over speed. Ask clarifying questions to reach a shared design concept. Do not begin implementation until both the human and AI agree on requirements, dependencies, and outcomes. → `grill-me`
+- **Ubiquitous Language:** Strictly adhere to established project terminology. Use consistent terms in code, variables, and documentation to eliminate ambiguity. → `ubiquitous-language`
+- **Deep Modules:** Favor "deep" modules with simple interfaces that hide internal complexity. Avoid creating numerous shallow files; encapsulate logic behind robust abstractions. → `improve-codebase-architecture` (use `domain-model` when stress-testing a plan against documented domain language and ADRs)
+- **Test-Driven Development (TDD):** Do not write implementation code before a corresponding test. Small, deliberate steps verified by tests define the speed of progress. → `tdd`
+- **Interface-First Design:** Focus on the contracts between modules. Once an interface is robust, the internal implementation can be treated as a manageable "gray box." → `design-an-interface`
+- **Architectural Investment:** Every change must improve, not degrade, the system. Refactor consistently to ensure the codebase remains "easy to change"—the ultimate measure of quality. → `improve-codebase-architecture` (use `request-refactor-plan` for refactors that should be broken into small, reviewable steps)
+
+---
+
 ## Swift / SwiftUI Conventions
 
 - Use `@Observable` (iOS 17+) — not `@ObservableObject` / `@StateObject`
@@ -144,37 +165,3 @@ Services/
 - Never import SwiftData into a View directly — go through ViewModel → UseCase → Repository
 - Never call Supabase from a ViewModel — use the repository protocol
 
-## Gesture System (Home Word Card)
-
-Preserve these exactly — they are core UX. Mirrors the old React Native app gesture system:
-- **Swipe left/right** → Navigate words (card slides fully off-screen, new card springs in from opposite side; scale + opacity linked to drag distance)
-- **Pull down** (overscroll at top) → Opens "Save to Collection" bottom sheet + circular progress indicator at top while pulling
-- **Pull up** (overscroll at bottom) → Opens Search + circular progress indicator at bottom while pulling
-- **Double-tap** → Favorite toggle + heart floats up from tap location with sway + "Added to favorites" message
-
-### Pull Indicator Behaviour
-Both pull indicators (bookmark ↓, search ↑) use the same visual: a frosted-glass circle with a progress ring that fills as the user pulls. Trigger threshold: 60 pt. On release before threshold: spring back, no action. On release past threshold: action fires, indicator snaps back.
-
-## AI Integration Rules
-
-- Every screen must work without AI — AI is enhancement only
-- AI tier priority: Local LLM (MLX) → OpenRouter BYOK → No AI (graceful UI)
-- Never block UI thread for AI calls — always async, show loading state
-- All AI-generated content must be labeled as such and editable by the user
-- AI features that require premium: show upgrade prompt, never error
-
-## Dictionary Pipeline Rules
-
-- Always check SwiftData cache first before any API call
-- Normalize all API responses into `WordModel` before returning to domain layer
-- Never expose raw API response types above the Data layer
-- Cache all successful lookups with 30-day TTL
-
-## What NOT to Do
-
-- Do not use `@StateObject` / `@ObservedObject` — use `@Observable`
-- Do not use CoreData — use SwiftData
-- Do not hardcode API keys — use user-provided keys stored in Keychain
-- Do not put AI calls in Views or ViewModels — route through `AIService`
-- Do not show error screens for missing AI — degrade gracefully
-- Do not add features not in the PRD without discussing first

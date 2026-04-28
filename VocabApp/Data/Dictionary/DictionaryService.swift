@@ -5,18 +5,21 @@ final class DictionaryService: DictionaryRepository {
     private let wordRepository: WordRepository
     private var wordnikApiKey: String?
     private var merriamWebsterApiKey: String?
+    private var aiRepository: AIRepository?
     private let cacheTTL: TimeInterval = 30 * 24 * 60 * 60 // 30 days
 
     init(
         apiClient: APIClient,
         wordRepository: WordRepository,
         wordnikApiKey: String? = nil,
-        merriamWebsterApiKey: String? = nil
+        merriamWebsterApiKey: String? = nil,
+        aiRepository: AIRepository? = nil
     ) {
         self.apiClient = apiClient
         self.wordRepository = wordRepository
         self.wordnikApiKey = wordnikApiKey
         self.merriamWebsterApiKey = merriamWebsterApiKey
+        self.aiRepository = aiRepository
     }
 
     func updateWordnikKey(_ key: String?) {
@@ -25,6 +28,10 @@ final class DictionaryService: DictionaryRepository {
 
     func updateMerriamWebsterKey(_ key: String?) {
         self.merriamWebsterApiKey = key
+    }
+
+    func updateAIRepository(_ repo: AIRepository?) {
+        self.aiRepository = repo
     }
 
     func lookup(word: String) async throws -> WordEntity {
@@ -38,6 +45,9 @@ final class DictionaryService: DictionaryRepository {
                 let age = Date().timeIntervalSince(cached.updatedAt)
                 if age < cacheTTL {
                     print("✅ Cache hit for: \(normalizedWord)")
+                    if aiRepository != nil, cached.contextualNote == nil {
+                        Task { await self.enrichContextualNote(cached) }
+                    }
                     return cached
                 }
                 print("⏳ Cache expired for: \(normalizedWord)")
@@ -176,7 +186,55 @@ final class DictionaryService: DictionaryRepository {
             print("⚠️ Cache save error: \(error)")
         }
 
+        // 5. Background AI enrichment — fires after return, doesn't block caller
+        if aiRepository != nil, mergedEntity.contextualNote == nil {
+            Task { await self.enrichContextualNote(mergedEntity) }
+        }
+
         return mergedEntity
+    }
+
+    private func collectStream(_ stream: AsyncThrowingStream<String, Error>) async throws -> String {
+        var result = ""
+        for try await chunk in stream { result += chunk }
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func enrichContextualNote(_ entity: WordEntity) async {
+        guard let ai = aiRepository else { return }
+        do {
+            let stream = try await ai.generateContent(for: entity.word, type: .contextHint)
+            let note = try await collectStream(stream)
+            guard !note.isEmpty else { return }
+
+            let checker = WordQualityChecker()
+            let enriched = WordEntity(
+                id: entity.id, word: entity.word, phonetic: entity.phonetic,
+                definitions: entity.definitions, examples: entity.examples,
+                synonyms: entity.synonyms, antonyms: entity.antonyms,
+                etymology: entity.etymology, otherForms: entity.otherForms,
+                aiMnemonic: entity.aiMnemonic, userNotes: entity.userNotes,
+                sources: entity.sources, createdAt: entity.createdAt, updatedAt: Date(),
+                audioURL: entity.audioURL, syllables: entity.syllables,
+                register: entity.register, contextualNote: note,
+                qualityScore: 0
+            )
+            let scored = WordEntity(
+                id: enriched.id, word: enriched.word, phonetic: enriched.phonetic,
+                definitions: enriched.definitions, examples: enriched.examples,
+                synonyms: enriched.synonyms, antonyms: enriched.antonyms,
+                etymology: enriched.etymology, otherForms: enriched.otherForms,
+                aiMnemonic: enriched.aiMnemonic, userNotes: enriched.userNotes,
+                sources: enriched.sources, createdAt: enriched.createdAt, updatedAt: enriched.updatedAt,
+                audioURL: enriched.audioURL, syllables: enriched.syllables,
+                register: enriched.register, contextualNote: enriched.contextualNote,
+                qualityScore: checker.score(enriched)
+            )
+            try await wordRepository.saveWord(scored)
+            print("✅ AI contextual note saved for: \(entity.word) (quality: \(scored.qualityScore)/8)")
+        } catch {
+            print("⚠️ AI enrichment failed for \(entity.word): \(error)")
+        }
     }
 
     private func mergeResults(_ entities: [WordEntity], originalWord: String) -> WordEntity {

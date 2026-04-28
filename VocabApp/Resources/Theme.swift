@@ -507,21 +507,29 @@ enum MessageType: Equatable {
     case added
     case already
     case removed
+    case caughtUp
 }
 
 struct MessageState: Identifiable, Equatable {
     let id = UUID()
     var type: MessageType
-    
+
     var text: String {
         switch type {
         case .added: return "Added to favorites"
         case .already: return "Already in favorites"
         case .removed: return "Removed from favorites"
+        case .caughtUp: return "All caught up!"
+        }
+    }
+
+    var subtext: String? {
+        switch type {
+        case .caughtUp: return "Check out new words tomorrow"
+        default: return nil
         }
     }
 }
-
 struct HeartOverlay: View {
     let state: HeartState
     let onDone: () -> Void
@@ -576,22 +584,42 @@ struct MessageOverlay: View {
     let onRemove: () -> Void
     
     @State private var showButton = false
+    @State private var showCheckmark = false
     
     var body: some View {
         ZStack(alignment: .top) {
             if let active = state {
-                VStack(spacing: 8) {
+                VStack(spacing: 4) {
+                    if active.type == .caughtUp {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundStyle(Theme.Colors.amieBlue)
+                            .padding(.bottom, 4)
+                            .scaleEffect(showCheckmark ? 1.0 : 0.01)
+                            .opacity(showCheckmark ? 1.0 : 0.0)
+                    }
+
                     // Stable Text Area
                     Text(active.text)
                         .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(Theme.Colors.textPrimary)
                         .frame(height: 24)
-                        .id(active.type)
+                        .id(active.id)
                         .transition(.asymmetric(
                             insertion: .move(edge: .top).combined(with: .opacity),
                             removal: .opacity
                         ))
-                    
+
+                    if let sub = active.subtext {
+                        Text(sub)
+                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .foregroundColor(Theme.Colors.textSecondary)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .top).combined(with: .opacity),
+                                removal: .opacity
+                            ))
+                    }
+
                     // Interaction Area
                     ZStack {
                         if active.type == .already && showButton {
@@ -631,13 +659,26 @@ struct MessageOverlay: View {
                     withAnimation(.spring(response: 0.5, dampingFraction: 0.7).delay(0.15)) {
                         showButton = true
                     }
+                    
+                    // Pop checkmark after message appears
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.6).delay(0.3)) {
+                        showCheckmark = true
+                    }
                 }
                 .onDisappear {
                     showButton = false
+                    showCheckmark = false
                 }
                 .onChange(of: active.type) { _, newValue in
                     if newValue != .already {
                         showButton = false
+                    }
+                    if newValue != .caughtUp {
+                        showCheckmark = false
+                    } else {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.6).delay(0.3)) {
+                            showCheckmark = true
+                        }
                     }
                 }
             }
@@ -649,7 +690,7 @@ struct MessageOverlay: View {
 
 extension AnyTransition {
     static var springScale: AnyTransition {
-        .scale(scale: 0.7).combined(with: .move(edge: .bottom))
+        .scale(scale: 0.7).combined(with: .move(edge: .top))
     }
 }
 

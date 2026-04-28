@@ -77,17 +77,23 @@ struct AddToCollectionSheet: View {
                             Text("Create new collection")
                         }
                         .font(.system(size: 15, weight: .bold, design: .rounded))
-                        .foregroundColor(Theme.Colors.textSecondary)
+                        .foregroundColor(Theme.Colors.textPrimary)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 20)
                         .background {
-                            RoundedRectangle(cornerRadius: Theme.Layout.cornerRadius)
-                                .stroke(Theme.Colors.border, style: StrokeStyle(lineWidth: 2, dash: [6]))
+                            ZStack {
+                                RoundedRectangle(cornerRadius: Theme.Layout.cornerRadius - 4)
+                                    .fill(Color.black.opacity(0.04))
+                                    .padding(4)
+                                
+                                RoundedRectangle(cornerRadius: Theme.Layout.cornerRadius)
+                                    .stroke(Theme.Colors.border, style: StrokeStyle(lineWidth: 2, dash: [6]))
+                            }
                         }
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 24)
-                    .padding(.top, 16)
+                    .padding(.top, 32)
                     .background(Theme.Colors.background)
                 }
 

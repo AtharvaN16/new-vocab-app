@@ -27,6 +27,7 @@ final class AppEnvironment {
     let srsRepository: SRSRepository
     let dictionaryRepository: DictionaryRepository
     var aiRepository: AIRepository
+    let localModelRepository: LocalModelRepository
     let syncRepository: SyncRepository
     let authRepository: AuthRepository
 
@@ -48,17 +49,22 @@ final class AppEnvironment {
         let keychainMWKey = (try? KeychainHelper.read(key: mwKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
         let merriamWebsterKey = keychainMWKey ?? BuildSecrets.merriamWebsterAPIKey
 
+        // Local Model Store
+        self.localModelRepository = LocalModelStore()
+
+        // AI Service
+        let aiCoordinator = AIServiceCoordinator(openRouterApiKey: savedOrKey)
+        self.aiRepository = aiCoordinator
+
         // Dictionary Service
         let apiClient = APIClient()
         self.dictionaryRepository = DictionaryService(
             apiClient: apiClient,
             wordRepository: wordRepo,
             wordnikApiKey: wordnikKey,
-            merriamWebsterApiKey: merriamWebsterKey
+            merriamWebsterApiKey: merriamWebsterKey,
+            aiRepository: aiCoordinator
         )
-
-        // AI Service
-        self.aiRepository = AIServiceCoordinator(openRouterApiKey: savedOrKey)
 
         // Sync Service
         self.syncRepository = SupabaseSyncService(modelContext: modelContext, wordRepository: wordRepo, srsRepository: self.srsRepository)
@@ -71,7 +77,9 @@ final class AppEnvironment {
 
     @MainActor
     func updateAIKey(_ key: String) {
-        self.aiRepository = AIServiceCoordinator(openRouterApiKey: key.isEmpty ? nil : key)
+        let newRepo = AIServiceCoordinator(openRouterApiKey: key.isEmpty ? nil : key)
+        self.aiRepository = newRepo
+        (dictionaryRepository as? DictionaryService)?.updateAIRepository(newRepo)
     }
 
     @MainActor

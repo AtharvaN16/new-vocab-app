@@ -7,7 +7,12 @@ struct WordExpandedContentView: View {
     var tiltY: Double = 0
     var tiltMultiplier: Double = 1.0
     var audioPlayer: WordAudioPlayer
+    var onWordEdited: ((WordEntity) -> Void)? = nil
     private let expandedMaxDeg = 14.0
+
+    @Environment(\.appEnvironment) private var appEnvironment
+    @State private var showEditor = false
+    @State private var showChat = false
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -115,6 +120,16 @@ struct WordExpandedContentView: View {
                         }
                     }
 
+                    if let contextNote = word.contextualNote, !contextNote.isEmpty {
+                        expandedSection("CONTEXT") {
+                            Text(contextNote)
+                                .font(.system(size: 16))
+                                .tracking(-0.6)
+                                .foregroundColor(Theme.Colors.textSecondary)
+                                .lineSpacing(4)
+                        }
+                    }
+
                     if !word.otherForms.isEmpty {
                         expandedSection("OTHER WORD FORMS") {
                             ForEach(word.otherForms, id: \.form) { form in
@@ -156,6 +171,46 @@ struct WordExpandedContentView: View {
                     endPoint: .bottom
                 )
             )
+
+            // Action buttons — top-right corner
+            if let env = appEnvironment {
+                VStack {
+                    HStack {
+                        Spacer()
+                        HStack(spacing: 2) {
+                            Button { showChat = true } label: {
+                                Image(systemName: "bubble.left.and.text.bubble.right")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foregroundColor(Theme.Colors.textSecondary.opacity(0.6))
+                                    .padding(8)
+                            }
+                            Button { showEditor = true } label: {
+                                Image(systemName: "pencil.circle")
+                                    .font(.system(size: 22, weight: .medium))
+                                    .foregroundColor(Theme.Colors.textSecondary.opacity(0.6))
+                                    .padding(8)
+                            }
+                        }
+                        .padding(.top, isFullHeight ? 10 : 40)
+                        .padding(.trailing, 20)
+                    }
+                    Spacer()
+                }
+                .sheet(isPresented: $showEditor) {
+                    WordEditorView(viewModel: WordEditorViewModel(
+                        word: word,
+                        wordRepository: env.wordRepository,
+                        aiRepository: env.aiRepository
+                    ))
+                }
+                .sheet(isPresented: $showChat) {
+                    WordChatView(viewModel: WordChatViewModel(
+                        word: word,
+                        aiRepository: env.aiRepository,
+                        wordRepository: env.wordRepository
+                    ))
+                }
+            }
         }
     }
 

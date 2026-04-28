@@ -11,31 +11,20 @@ struct ProfileView: View {
                 Theme.Colors.background.ignoresSafeArea()
                 
                 Form {
-                    Section(header: Text("AI Assistant")) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("OpenRouter API Key")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            
-                            SecureField("Enter sk-or-v1-...", text: $viewModel.openRouterApiKey)
-                                .textFieldStyle(.roundedBorder)
-                            
-                            Text("Your key is stored securely in the iOS Keychain.")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                        .padding(.vertical, 4)
-                        
-                        Button(action: { 
-                            viewModel.saveKeys() 
-                            if let appEnv = appEnvironment {
-                                appEnv.updateAIKey(viewModel.openRouterApiKey)
-                            }
-                        }) {
-                            if viewModel.isSaving {
-                                ProgressView()
-                            } else {
-                                Text("Save AI Settings")
+                    Section(header: Text("AI")) {
+                        if let env = appEnvironment {
+                            NavigationLink {
+                                ModelManagerView(
+                                    viewModel: ModelManagerViewModel(repository: env.localModelRepository)
+                                )
+                            } label: {
+                                HStack {
+                                    Label("Intelligence", systemImage: "cpu")
+                                    Spacer()
+                                    Text(ModelManagerViewModel(repository: env.localModelRepository).activeModelLabel)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
