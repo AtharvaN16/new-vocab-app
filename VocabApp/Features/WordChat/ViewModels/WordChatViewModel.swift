@@ -83,8 +83,6 @@ enum AssistantMode: String, CaseIterable, Identifiable {
             - Explain specifically why the correct answer works
             - Explain why each distractor fails (this is the most valuable part)
             - Then generate the next question
-
-            Start immediately with your first question now. Do not introduce yourself — just begin the question.
             """
 
         case .writeWithIt:
@@ -99,7 +97,7 @@ enum AssistantMode: String, CaseIterable, Identifiable {
             - When the user writes a sentence: rate it on two axes — correctness (did they use it right?) and precision (did they capture its specific nuance vs a blander synonym?). Be specific, not just "good job."
             - Suggest alternatives at different registers if relevant.
 
-            One rule: never write their sentence for them unless they explicitly ask. Challenge them to try first. The act of writing it is the learning.
+            One rule: always ask the user to try writing first, before you provide any examples. Even if they ask you to write one for them, offer a simpler prompt or scaffold instead — never produce the sentence for them. The act of struggling to write it is the learning.
             """
         }
     }
@@ -165,7 +163,7 @@ final class WordChatViewModel {
     var errorMessage: String? = nil
     var selectedMode: AssistantMode = .deepDive
 
-    let word: WordEntity
+    var word: WordEntity
     private let aiRepository: AIRepository
     private let wordRepository: WordRepository
 
@@ -182,11 +180,13 @@ final class WordChatViewModel {
         guard !userText.isEmpty, !isGenerating else { return }
 
         inputText = ""
+        // Snapshot history BEFORE appending the new turn
+        let history = messages.map {
+            ChatHistoryEntry(role: $0.role == .user ? "user" : "assistant", content: $0.content)
+        }
         messages.append(ChatMessage(role: .user, content: userText))
-
         let assistantMessage = ChatMessage(role: .assistant)
         messages.append(assistantMessage)
-
         isGenerating = true
         errorMessage = nil
 
@@ -195,6 +195,7 @@ final class WordChatViewModel {
                 for: word.word,
                 type: .chat(
                     systemPrompt: selectedMode.systemPrompt(for: word),
+                    history: history,
                     userMessage: userText
                 )
             )
@@ -268,6 +269,7 @@ final class WordChatViewModel {
                 qualityScore: word.qualityScore
             )
         }
+        self.word = updated
         try? await wordRepository.saveWord(updated)
     }
 }

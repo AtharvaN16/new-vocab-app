@@ -53,6 +53,16 @@ final class MLXService: AIRepository {
             return "<|user|>\nGive me 2 examples for '\(word)'.<|end|>\n<|assistant|>\n"
         case .contextHint:
             return "<|user|>\nGive me a hint for '\(word)'.<|end|>\n<|assistant|>\n"
+        case .editorSuggest(let prompt):
+            return "<|user|>\n\(prompt)<|end|>\n<|assistant|>\n"
+        case .chat(let systemPrompt, let history, let userMessage):
+            var prompt = "<|system|>\n\(systemPrompt)<|end|>\n"
+            for entry in history {
+                let tag = entry.role == "user" ? "<|user|>" : "<|assistant|>"
+                prompt += "\(tag)\n\(entry.content)<|end|>\n"
+            }
+            prompt += "<|user|>\n\(userMessage)<|end|>\n<|assistant|>\n"
+            return prompt
         }
     }
 }

@@ -10,8 +10,6 @@ final class OpenRouterService: AIRepository {
     }
 
     func generateContent(for word: String, type: AIContentType) async throws -> AsyncThrowingStream<String, Error> {
-        let prompt = createPrompt(for: word, type: type)
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
@@ -20,8 +18,8 @@ final class OpenRouterService: AIRepository {
         request.addValue("VocabApp iOS", forHTTPHeaderField: "X-Title")
 
         let body: [String: Any] = [
-            "model": "google/gemini-pro-1.5", // Default model
-            "messages": [["role": "user", "content": prompt]],
+            "model": "google/gemini-flash-1.5",
+            "messages": buildMessages(for: word, type: type),
             "stream": true
         ]
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
@@ -60,14 +58,24 @@ final class OpenRouterService: AIRepository {
         }
     }
 
-    private func createPrompt(for word: String, type: AIContentType) -> String {
+    private func buildMessages(for word: String, type: AIContentType) -> [[String: String]] {
         switch type {
         case .mnemonic:
-            return "Create a short, vivid mnemonic to help me remember the word '\(word)'. Use etymology or visual association. Keep it under 2 sentences."
+            let prompt = "Create a short, vivid mnemonic to help me remember the word '\(word)'. Use etymology or visual association. Keep it under 2 sentences."
+            return [["role": "user", "content": prompt]]
         case .example:
-            return "Create 3 distinct example sentences for the word '\(word)': one academic, one casual, and one literary."
+            let prompt = "Create 3 distinct example sentences for the word '\(word)': one academic, one casual, and one literary."
+            return [["role": "user", "content": prompt]]
         case .contextHint:
-            return "Give me a subtle context clue for the word '\(word)' without using the word itself or its direct definition."
+            let prompt = "Give me a subtle context clue for the word '\(word)' without using the word itself or its direct definition. Keep it under 2 sentences."
+            return [["role": "user", "content": prompt]]
+        case .editorSuggest(let prompt):
+            return [["role": "user", "content": prompt]]
+        case .chat(let systemPrompt, let history, let userMessage):
+            var msgs: [[String: String]] = [["role": "system", "content": systemPrompt]]
+            msgs += history.map { ["role": $0.role, "content": $0.content] }
+            msgs += [["role": "user", "content": userMessage]]
+            return msgs
         }
     }
 }
