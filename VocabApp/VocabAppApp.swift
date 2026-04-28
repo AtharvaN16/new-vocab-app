@@ -17,6 +17,9 @@ struct VocabAppApp: App {
                 ReviewLogSD.self
             ])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+            // TODO: before first TestFlight/App Store distribution, add a VersionedSchema +
+            // SchemaMigrationPlan to handle the @Attribute(.unique) added to SRSCardSD.wordId.
+            // Safe to skip while no users have the old schema on-device.
             let container = try ModelContainer(for: schema, configurations: [config])
             self.container = container
             
