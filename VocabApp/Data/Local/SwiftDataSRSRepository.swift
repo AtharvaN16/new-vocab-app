@@ -76,11 +76,11 @@ final class SwiftDataSRSRepository: SRSRepository {
 
     @MainActor
     func enrollWords(_ wordIds: [UUID]) async throws {
-        for wordId in wordIds {
-            let id = wordId
-            let descriptor = FetchDescriptor<SRSCardSD>(predicate: #Predicate { $0.wordId == id })
-            let existing = try modelContext.fetch(descriptor)
-            guard existing.isEmpty else { continue }
+        let existing = try modelContext.fetch(
+            FetchDescriptor<SRSCardSD>(predicate: #Predicate { wordIds.contains($0.wordId) })
+        )
+        let enrolledIds = Set(existing.map { $0.wordId })
+        for wordId in wordIds where !enrolledIds.contains(wordId) {
             let card = SRSCardEntity(
                 id: UUID(),
                 wordId: wordId,

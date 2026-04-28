@@ -4,7 +4,7 @@ import SwiftData
 @Model
 final class SRSCardSD {
     @Attribute(.unique) var id: UUID
-    var wordId: UUID
+    @Attribute(.unique) var wordId: UUID
     
     // FSRS State
     var due: Date

@@ -40,6 +40,7 @@ final class SRSEnrollmentTests: XCTestCase {
         try await repository.enrollWords([wordId])
         let card = try await repository.fetchCard(for: wordId)
         XCTAssertNotNil(card)
+        XCTAssertGreaterThanOrEqual(card!.due, before.addingTimeInterval(-1))
         XCTAssertLessThanOrEqual(card!.due, before.addingTimeInterval(5))
     }
 
@@ -58,5 +59,11 @@ final class SRSEnrollmentTests: XCTestCase {
             let card = try await repository.fetchCard(for: id)
             XCTAssertNotNil(card)
         }
+    }
+
+    func test_enrollWords_emptyArray_doesNotThrow() async throws {
+        try await repository.enrollWords([])
+        let cards = try await repository.fetchDueCards(asOf: Date.distantFuture)
+        XCTAssertTrue(cards.isEmpty)
     }
 }
