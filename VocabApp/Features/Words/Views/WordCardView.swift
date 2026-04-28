@@ -101,30 +101,33 @@ struct WordCardView: View {
             Spacer()
 
             // 1. Phonetic Slot (Fixed height to prevent jumping)
-            Group {
-                if let phonetic = word.phonetic, !phonetic.isEmpty {
-                    HStack(alignment: .center, spacing: 6) {
-                        Text(phonetic)
-                            .font(.system(size: 16, weight: .regular))
-                            .tracking(-0.6)
-                            .foregroundColor(Theme.Colors.textSecondary)
-                            .underline()
-                        if word.audioURL != nil {
-                            Button {
-                                audioPlayer.toggle(url: word.audioURL)
-                            } label: {
+            Button {
+                audioPlayer.toggle(url: word.audioURL)
+            } label: {
+                Group {
+                    if let phonetic = word.phonetic, !phonetic.isEmpty {
+                        HStack(alignment: .center, spacing: 6) {
+                            Text(phonetic)
+                                .font(.system(size: 16, weight: .regular))
+                                .tracking(-0.6)
+                                .foregroundColor(Theme.Colors.textSecondary)
+                                .underline()
+                            if word.audioURL != nil {
                                 Image(systemName: audioPlayer.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
                                     .font(.system(size: 11, weight: .semibold))
                                     .foregroundColor(Theme.Colors.textSecondary)
                             }
                         }
+                    } else {
+                        Text(" ")
                     }
-                } else {
-                    Text(" ")
                 }
+                .frame(height: 44)
+                .contentShape(Rectangle())
             }
-            .frame(height: 20)
-            .padding(.bottom, 14)
+            .buttonStyle(.plain)
+            .disabled(word.audioURL == nil)
+            .padding(.bottom, 6)
 
             // 2. Word Anchor
             StickerText(

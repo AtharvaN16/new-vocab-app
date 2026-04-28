@@ -14,24 +14,28 @@ struct WordExpandedContentView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     if let phonetic = word.phonetic, !phonetic.isEmpty {
-                        HStack(alignment: .center, spacing: 8) {
-                            Text(phonetic)
-                                .font(.system(size: 16, weight: .regular))
-                                .tracking(-0.6)
-                                .foregroundColor(Theme.Colors.textSecondary)
-                                .underline()
-                            if word.audioURL != nil {
-                                Button {
-                                    audioPlayer.toggle(url: word.audioURL)
-                                } label: {
+                        Button {
+                            audioPlayer.toggle(url: word.audioURL)
+                        } label: {
+                            HStack(alignment: .center, spacing: 8) {
+                                Text(phonetic)
+                                    .font(.system(size: 16, weight: .regular))
+                                    .tracking(-0.6)
+                                    .foregroundColor(Theme.Colors.textSecondary)
+                                    .underline()
+                                if word.audioURL != nil {
                                     Image(systemName: audioPlayer.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
                                         .font(.system(size: 13, weight: .semibold))
                                         .foregroundColor(Theme.Colors.textSecondary)
                                 }
                             }
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(.plain)
+                        .disabled(word.audioURL == nil)
                         .padding(.top, isFullHeight ? 10 : 40)
-                        .padding(.bottom, 16)
+                        .padding(.bottom, 8)
                     } else {
                         Spacer(minLength: isFullHeight ? 20 : 60)
                     }
