@@ -149,7 +149,7 @@ final class HomeViewModel {
         do {
             if !collection.wordIds.contains(word.id) {
                 try await collectionRepository.addWordToCollection(wordId: word.id, collectionId: collection.id)
-                try? await srsRepository.enrollWords([word.id])
+                do { try await srsRepository.enrollWords([word.id]) } catch { print("SRS enrollment error: \(error)") }
                 collections = try await collectionRepository.fetchCollections()
             }
 
