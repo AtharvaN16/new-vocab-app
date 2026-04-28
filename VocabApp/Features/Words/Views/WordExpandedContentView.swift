@@ -48,12 +48,28 @@ struct WordExpandedContentView: View {
                             .padding(.bottom, 24)
                     }
 
-                    if let def = word.definitions.first {
-                        Text(def.text)
-                            .font(.system(size: 16))
-                            .tracking(-0.7)
-                            .foregroundColor(Theme.Colors.textSecondary)
-                            .padding(.bottom, 36)
+                    if !word.definitions.isEmpty {
+                        expandedSection("DEFINITIONS") {
+                            ForEach(Array(word.definitions.prefix(5).enumerated()), id: \.offset) { i, def in
+                                VStack(alignment: .leading, spacing: 6) {
+                                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                        Text("\(i + 1).")
+                                            .font(.system(size: 14, weight: .semibold))
+                                            .foregroundColor(Theme.Colors.textSecondary)
+                                        if !def.partOfSpeech.isEmpty {
+                                            Text(def.partOfSpeech)
+                                                .font(.system(size: 14).italic())
+                                                .foregroundColor(Theme.Colors.textSecondary.opacity(0.7))
+                                        }
+                                    }
+                                    Text(def.text)
+                                        .font(.system(size: 16))
+                                        .tracking(-0.7)
+                                        .foregroundColor(Theme.Colors.textSecondary)
+                                }
+                                .padding(.bottom, 16)
+                            }
+                        }
                     }
 
                     if !word.examples.isEmpty {
@@ -78,6 +94,16 @@ struct WordExpandedContentView: View {
                     if !word.antonyms.isEmpty {
                         expandedSection("ANTONYMS") {
                             WordFlowRow(items: Array(word.antonyms.prefix(8)))
+                        }
+                    }
+
+                    if let etymology = word.etymology, !etymology.isEmpty {
+                        expandedSection("ETYMOLOGY") {
+                            Text(etymology)
+                                .font(.system(size: 16))
+                                .tracking(-0.6)
+                                .foregroundColor(Theme.Colors.textSecondary)
+                                .lineSpacing(4)
                         }
                     }
 
