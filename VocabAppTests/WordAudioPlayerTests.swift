@@ -20,20 +20,20 @@ final class WordAudioPlayerTests: XCTestCase {
         XCTAssertFalse(player.isPlaying)
     }
 
-    func test_toggle_validURL_startsPlaying() {
+    func test_toggle_validURL_setsIsPlayingTrue() {
         let player = WordAudioPlayer()
         player.toggle(url: "https://api.dictionaryapi.dev/media/pronunciations/en/ephemeral-us.mp3")
         XCTAssertTrue(player.isPlaying)
     }
 
-    func test_toggle_whenPlaying_stops() {
+    func test_toggle_whenPlaying_setsIsPlayingFalse() {
         let player = WordAudioPlayer()
         player.toggle(url: "https://api.dictionaryapi.dev/media/pronunciations/en/ephemeral-us.mp3")
         player.toggle(url: "https://api.dictionaryapi.dev/media/pronunciations/en/ephemeral-us.mp3")
         XCTAssertFalse(player.isPlaying)
     }
 
-    func test_stop_whenPlaying_stops() {
+    func test_stop_whenPlaying_setsIsPlayingFalse() {
         let player = WordAudioPlayer()
         player.toggle(url: "https://api.dictionaryapi.dev/media/pronunciations/en/ephemeral-us.mp3")
         player.stop()

@@ -6,7 +6,7 @@ struct WordExpandedContentView: View {
     var tiltX: Double = 0
     var tiltY: Double = 0
     var tiltMultiplier: Double = 1.0
-    var audioPlayer: WordAudioPlayer = WordAudioPlayer()
+    var audioPlayer: WordAudioPlayer
     private let expandedMaxDeg = 14.0
 
     var body: some View {
