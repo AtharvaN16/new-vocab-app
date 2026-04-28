@@ -27,10 +27,7 @@ struct ContentView: View {
                             ))
                     case 2:
                         discoverTab(appEnvironment)
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .top).combined(with: .opacity),
-                                removal: .move(edge: .top).combined(with: .opacity)
-                            ))
+                            .transition(.opacity)
                     case 3:
                         ProfileView()
                             .transition(.asymmetric(
@@ -59,8 +56,9 @@ struct ContentView: View {
         } else {
             Color.clear.onAppear {
                 navState.homeViewModel = HomeViewModel(
-                    wordRepository: appEnvironment.wordRepository,
-                    collectionRepository: appEnvironment.collectionRepository
+                    collectionRepository: appEnvironment.collectionRepository,
+                    dictionaryRepository: appEnvironment.dictionaryRepository,
+                    srsRepository: appEnvironment.srsRepository
                 )
             }
         }

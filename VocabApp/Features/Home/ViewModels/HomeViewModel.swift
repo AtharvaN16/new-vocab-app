@@ -18,11 +18,13 @@ final class HomeViewModel {
 
     let collectionRepository: CollectionRepository
     private let dictionaryRepository: DictionaryRepository
+    private let srsRepository: SRSRepository
     private let dailyWordsUseCase = DailyWordsUseCase()
 
-    init(collectionRepository: CollectionRepository, dictionaryRepository: DictionaryRepository) {
+    init(collectionRepository: CollectionRepository, dictionaryRepository: DictionaryRepository, srsRepository: SRSRepository) {
         self.collectionRepository = collectionRepository
         self.dictionaryRepository = dictionaryRepository
+        self.srsRepository = srsRepository
         Task { await loadData() }
     }
 
@@ -61,18 +63,21 @@ final class HomeViewModel {
         let wordStrings = dailyWordsUseCase.wordsForToday()
         collections = (try? await collectionRepository.fetchCollections()) ?? []
 
-        var loaded: [WordEntity] = []
-        await withTaskGroup(of: WordEntity?.self) { group in
-            for wordString in wordStrings {
+        var loadedResults: [Int: WordEntity] = [:]
+        await withTaskGroup(of: (Int, WordEntity?).self) { group in
+            for (index, wordString) in wordStrings.enumerated() {
                 group.addTask { [dictionaryRepository] in
-                    try? await dictionaryRepository.lookup(word: wordString)
+                    let entity = try? await dictionaryRepository.lookup(word: wordString)
+                    return (index, entity)
                 }
             }
-            for await result in group {
-                if let entity = result { loaded.append(entity) }
+            for await (index, result) in group {
+                if let entity = result { loadedResults[index] = entity }
             }
         }
-        words = loaded
+        
+        // Sort by original index to preserve order
+        words = wordStrings.indices.compactMap { loadedResults[$0] }
         isLoading = false
     }
 
@@ -144,6 +149,7 @@ final class HomeViewModel {
         do {
             if !collection.wordIds.contains(word.id) {
                 try await collectionRepository.addWordToCollection(wordId: word.id, collectionId: collection.id)
+                try? await srsRepository.enrollWords([word.id])
                 collections = try await collectionRepository.fetchCollections()
             }
 
