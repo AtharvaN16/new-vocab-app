@@ -3,14 +3,18 @@ import SwiftData
 import SwiftUI
 
 private enum BuildSecrets {
-    /// Wordnik key from `Config/Secrets.xcconfig` → Info.plist, or `WORDNIK_API_KEY` in the run environment.
     static var wordnikAPIKey: String {
-        if let v = Bundle.main.object(forInfoDictionaryKey: "WORDNIK_API_KEY") as? String,
-           !v.isEmpty,
-           !v.hasPrefix("$(") {
-            return v
-        }
-        return ProcessInfo.processInfo.environment["WORDNIK_API_KEY"] ?? ""
+        plistString("WORDNIK_API_KEY") ?? ProcessInfo.processInfo.environment["WORDNIK_API_KEY"] ?? ""
+    }
+
+    static var merriamWebsterAPIKey: String? {
+        plistString("MERRIAM_WEBSTER_API_KEY")
+    }
+
+    private static func plistString(_ key: String) -> String? {
+        guard let v = Bundle.main.object(forInfoDictionaryKey: key) as? String,
+              !v.isEmpty, !v.hasPrefix("$(") else { return nil }
+        return v
     }
 }
 
@@ -37,11 +41,12 @@ final class AppEnvironment {
 
         let wordnikKey = BuildSecrets.wordnikAPIKey
 
-        // BYOK Keys from Keychain
+        // BYOK Keys: build-time secrets first, Keychain override second
         let orKeyPath = "com.atharvanayak.vocabapp.openrouter_key"
         let mwKeyPath = "com.atharvanayak.vocabapp.merriamwebster_key"
         let savedOrKey = (try? KeychainHelper.read(key: orKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
-        let savedMWKey = (try? KeychainHelper.read(key: mwKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
+        let keychainMWKey = (try? KeychainHelper.read(key: mwKeyPath)).flatMap { String(data: $0, encoding: .utf8) }
+        let merriamWebsterKey = keychainMWKey ?? BuildSecrets.merriamWebsterAPIKey
 
         // Dictionary Service
         let apiClient = APIClient()
@@ -49,7 +54,7 @@ final class AppEnvironment {
             apiClient: apiClient,
             wordRepository: wordRepo,
             wordnikApiKey: wordnikKey,
-            merriamWebsterApiKey: savedMWKey
+            merriamWebsterApiKey: merriamWebsterKey
         )
 
         // AI Service
