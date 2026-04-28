@@ -31,6 +31,7 @@
 		2CB89E0A45F623C007AC27C2 /* DatamuseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324F01E51AD71A2EAE6DC020 /* DatamuseTests.swift */; };
 		3241A9FA20D643C1215571E1 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B8EB5AAD9EBFC7A75D250 /* DiscoverView.swift */; };
 		35AD8CF579FC9DCEC58D6410 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A09EC44FB5E14F1019691E4 /* LibraryView.swift */; };
+		39026579000CE420791A9BD9 /* WordAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3EFF59EEB15201B41FDE45 /* WordAudioPlayerTests.swift */; };
 		49FFFD4D69D558AE06BEE76F /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA587D34DB3DCFA2DFDB01 /* APIClient.swift */; };
 		4E921D234C3C26B3538AC854 /* OpenRouterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027EA9FAF1327D790EAE7E /* OpenRouterService.swift */; };
 		501CF429ED777BDAE74CACFB /* WordnikDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D894DF55F773F0BD3C44593 /* WordnikDTO.swift */; };
@@ -50,6 +51,7 @@
 		7FB56E3B9B93CC1E8705D4EA /* FreeDictionaryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4BF4343537DAE81E7B1E67 /* FreeDictionaryRequest.swift */; };
 		84EF3075A4256DFB44A862C8 /* SwiftDataCollectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB1E2156D66D37E4B21D2EE /* SwiftDataCollectionRepository.swift */; };
 		86DCC422ABFE2A8FC9C19D97 /* WiktionaryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD98268E2BADC655968781D /* WiktionaryDTO.swift */; };
+		8C2BCC73CB7F2B5EDEE36DBD /* WordAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3214EBAB8193A5E46CB5727 /* WordAudioPlayer.swift */; };
 		90B5E9B3BA8375BD3628334F /* FSRSEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B4499D3DA0415C01429315 /* FSRSEngine.swift */; };
 		92E3909ED54EDE453012B5BD /* SRSCardSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED929C2D855F6D341484BCE8 /* SRSCardSD.swift */; };
 		983EEE97A5F07A9C8D4B148F /* WordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651E0DB8770548217D09C61A /* WordRepository.swift */; };
@@ -98,7 +100,7 @@
 /* Begin PBXFileReference section */
 		032E75DCF165393BACCC68D2 /* DailyWordsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWordsUseCase.swift; sourceTree = "<group>"; };
 		0702460F543049310EA2B0DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		08CB456C1F6E51A48E691AA2 /* VocabAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AF6047DFAF7A329CF3FF4D1 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
 		0C55905465A789DD49F288BC /* SRSCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardEntity.swift; sourceTree = "<group>"; };
 		0E42921C86DA611DED528057 /* WordEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntity.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		9273C6936E0816668D779C23 /* MerriamWebsterDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterDTO.swift; sourceTree = "<group>"; };
 		973C77EDD82DA05ACCB4740A /* WordCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardView.swift; sourceTree = "<group>"; };
 		9D894DF55F773F0BD3C44593 /* WordnikDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordnikDTO.swift; sourceTree = "<group>"; };
+		9F3EFF59EEB15201B41FDE45 /* WordAudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAudioPlayerTests.swift; sourceTree = "<group>"; };
 		9F91CCB35D781913568E8874 /* WordQualityChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityChecker.swift; sourceTree = "<group>"; };
 		A168067B3ED820C36CF4C331 /* SRSRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSRepository.swift; sourceTree = "<group>"; };
 		A5CF0C1B25595989F48B42D5 /* WordSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSD.swift; sourceTree = "<group>"; };
@@ -161,7 +164,7 @@
 		BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterTests.swift; sourceTree = "<group>"; };
 		C28CE388BE917DB85F95C299 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewModel.swift; sourceTree = "<group>"; };
 		C4E9D7EC1601EC219F71BD6D /* CollectionSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSD.swift; sourceTree = "<group>"; };
-		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8D22EE326CAD50DC57B9CB5 /* VocabApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1DB884F078D6AE2B7E56146 /* CollectionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailViewModel.swift; sourceTree = "<group>"; };
 		D9591CFD05018990729AF7A9 /* WordEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordEntityTests.swift; sourceTree = "<group>"; };
 		D9731226E6ADA340E6EACA76 /* WordQualityCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordQualityCheckerTests.swift; sourceTree = "<group>"; };
@@ -169,6 +172,7 @@
 		E2F03018B1A94326D3DD2CB6 /* PracticeSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSessionViewModel.swift; sourceTree = "<group>"; };
 		E33455C7C6507068C53D27AF /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		ED929C2D855F6D341484BCE8 /* SRSCardSD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRSCardSD.swift; sourceTree = "<group>"; };
+		F3214EBAB8193A5E46CB5727 /* WordAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordAudioPlayer.swift; sourceTree = "<group>"; };
 		F58D8B406FF34EFDC1E74368 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F5E726D4F70640C5027896F7 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		F6DFBD9339F3E11AB84FE879 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				324F01E51AD71A2EAE6DC020 /* DatamuseTests.swift */,
 				348599A9A0EBB2AF124D33A9 /* FreeDictionaryNormalizerTests.swift */,
 				BC1287EFE7AF9761CC64240E /* MerriamWebsterTests.swift */,
+				9F3EFF59EEB15201B41FDE45 /* WordAudioPlayerTests.swift */,
 				D9591CFD05018990729AF7A9 /* WordEntityTests.swift */,
 				83E5E162257D74F1E5B547E4 /* WordnikRelatedWordsTests.swift */,
 				D9731226E6ADA340E6EACA76 /* WordQualityCheckerTests.swift */,
@@ -452,6 +457,7 @@
 				F5E726D4F70640C5027896F7 /* AppEnvironment.swift */,
 				273DE18EB0EA140731224E8A /* KeychainHelper.swift */,
 				E33455C7C6507068C53D27AF /* MotionManager.swift */,
+				F3214EBAB8193A5E46CB5727 /* WordAudioPlayer.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -622,8 +628,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 32D07C71FA1FDDE5A2C6458C /* Build configuration list for PBXProject "VocabApp" */;
 			developmentRegion = en;
@@ -720,6 +724,7 @@
 				2C7AF28E8A087335B5B3FE26 /* VocabAppApp.swift in Sources */,
 				86DCC422ABFE2A8FC9C19D97 /* WiktionaryDTO.swift in Sources */,
 				E8BF2B9F6E60504071387FA1 /* WiktionaryRequest.swift in Sources */,
+				8C2BCC73CB7F2B5EDEE36DBD /* WordAudioPlayer.swift in Sources */,
 				C7E7C8945E6EBAA51ED8DA0D /* WordCardView.swift in Sources */,
 				9C2E3FAC0141F96C608BF34A /* WordDetailView.swift in Sources */,
 				29A60B0417DD1BBE2EA6037E /* WordDetailViewModel.swift in Sources */,
@@ -740,6 +745,7 @@
 				2CB89E0A45F623C007AC27C2 /* DatamuseTests.swift in Sources */,
 				E87079E632837468CA602EBD /* FreeDictionaryNormalizerTests.swift in Sources */,
 				FE2AFD8624D8A979AA95089B /* MerriamWebsterTests.swift in Sources */,
+				39026579000CE420791A9BD9 /* WordAudioPlayerTests.swift in Sources */,
 				B2A51DF5110D32EB0357D057 /* WordEntityTests.swift in Sources */,
 				767FD90536C350D08A57CDD9 /* WordQualityCheckerTests.swift in Sources */,
 				EE80C377C9B8786F4E5A9D60 /* WordnikRelatedWordsTests.swift in Sources */,
@@ -822,6 +828,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";
@@ -866,6 +873,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = V69PL7U8EX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_MERRIAM_WEBSTER_API_KEY = "$(MERRIAM_WEBSTER_API_KEY)";
 				INFOPLIST_KEY_MERRIAM_WEBSTER_THESAURUS_KEY = "$(MERRIAM_WEBSTER_THESAURUS_KEY)";

@@ -10,6 +10,7 @@ struct WordCardView: View {
     var isFullHeight: Bool = false
     var verticalOffset: CGFloat = 0
     @State private var motion = MotionManager()
+    @State private var audioPlayer = WordAudioPlayer()
     @State private var cardX: CGFloat = 0
     @State private var isTransitioning = false
     @State private var lockedAxis: GestureAxis? = nil
@@ -28,6 +29,7 @@ struct WordCardView: View {
     var body: some View {
         ZStack {
             Theme.Colors.background.ignoresSafeArea()
+            DotMatrixBackground()
             
             VStack(spacing: 0) {
                 if isExpanded {
@@ -36,7 +38,8 @@ struct WordCardView: View {
                         isFullHeight: isFullHeight,
                         tiltX: motion.tiltX,
                         tiltY: motion.tiltY,
-                        tiltMultiplier: tiltMultiplier
+                        tiltMultiplier: tiltMultiplier,
+                        audioPlayer: audioPlayer
                     )
                     .transition(.asymmetric(
                         insertion: .opacity.combined(with: .move(edge: .bottom)),
@@ -86,6 +89,9 @@ struct WordCardView: View {
         }
         .onAppear { motion.start() }
         .onDisappear { motion.stop() }
+        .onChange(of: word.id) {
+            audioPlayer.stop()
+        }
     }
 
     @ViewBuilder
@@ -97,13 +103,24 @@ struct WordCardView: View {
             // 1. Phonetic Slot (Fixed height to prevent jumping)
             Group {
                 if let phonetic = word.phonetic, !phonetic.isEmpty {
-                    Text(phonetic)
-                        .font(.system(size: 16, weight: .regular))
-                        .tracking(-0.6)
-                        .foregroundColor(Theme.Colors.textSecondary)
-                        .underline()
+                    HStack(alignment: .center, spacing: 6) {
+                        Text(phonetic)
+                            .font(.system(size: 16, weight: .regular))
+                            .tracking(-0.6)
+                            .foregroundColor(Theme.Colors.textSecondary)
+                            .underline()
+                        if word.audioURL != nil {
+                            Button {
+                                audioPlayer.toggle(url: word.audioURL)
+                            } label: {
+                                Image(systemName: audioPlayer.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
+                                    .font(.system(size: 11, weight: .semibold))
+                                    .foregroundColor(Theme.Colors.textSecondary)
+                            }
+                        }
+                    }
                 } else {
-                    Text(" ") // Invisible placeholder to hold space
+                    Text(" ")
                 }
             }
             .frame(height: 20)

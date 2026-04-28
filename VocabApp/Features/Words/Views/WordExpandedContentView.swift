@@ -6,6 +6,7 @@ struct WordExpandedContentView: View {
     var tiltX: Double = 0
     var tiltY: Double = 0
     var tiltMultiplier: Double = 1.0
+    var audioPlayer: WordAudioPlayer = WordAudioPlayer()
     private let expandedMaxDeg = 14.0
 
     var body: some View {
@@ -13,13 +14,24 @@ struct WordExpandedContentView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     if let phonetic = word.phonetic, !phonetic.isEmpty {
-                        Text(phonetic)
-                            .font(.system(size: 16, weight: .regular))
-                            .tracking(-0.6)
-                            .foregroundColor(Theme.Colors.textSecondary)
-                            .underline()
-                            .padding(.top, isFullHeight ? 10 : 40)
-                            .padding(.bottom, 16)
+                        HStack(alignment: .center, spacing: 8) {
+                            Text(phonetic)
+                                .font(.system(size: 16, weight: .regular))
+                                .tracking(-0.6)
+                                .foregroundColor(Theme.Colors.textSecondary)
+                                .underline()
+                            if word.audioURL != nil {
+                                Button {
+                                    audioPlayer.toggle(url: word.audioURL)
+                                } label: {
+                                    Image(systemName: audioPlayer.isPlaying ? "speaker.wave.2.fill" : "speaker.fill")
+                                        .font(.system(size: 13, weight: .semibold))
+                                        .foregroundColor(Theme.Colors.textSecondary)
+                                }
+                            }
+                        }
+                        .padding(.top, isFullHeight ? 10 : 40)
+                        .padding(.bottom, 16)
                     } else {
                         Spacer(minLength: isFullHeight ? 20 : 60)
                     }
